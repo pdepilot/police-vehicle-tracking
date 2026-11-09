@@ -48,5 +48,18 @@ class FleetRoutesTest extends TestCase
         $response->assertSee('form-veh-registration', false);
         $response->assertSee('form-veh-callsign', false);
     }
+
+    public function test_maintenance_view_has_no_hardcoded_values(): void
+    {
+        $response = $this->get('/maintenance');
+        $response->assertStatus(200);
+        $response->assertDontSee('value="450"', false);
+        $response->assertDontSee('Master Tech J. Kowalski', false);
+        $response->assertDontSee('Metro Fleet Central Workshop', false);
+        $response->assertDontSee('10,000-Mile', false);
+        $response->assertSee('id="maintenance-modal-form"', false);
+        $response->assertSee('id="form-mnt-vehicle"', false);
+        $response->assertSee('Save Service Order', false);
+    }
 }
 

@@ -754,28 +754,28 @@
       vehicleModel: 'Dodge Durango Pursuit',
       type: 'Brake System & Rotors',
       description: 'Severe pad wear detected. Front & rear ceramic pursuit rotors and calipers replaced.',
-      cost: 840,
+      cost: 450000,
       reportedDate: '2026-11-02',
       serviceDate: '2026-11-05',
       nextServiceDate: '2027-04-10',
-      provider: 'Metro Fleet Central Workshop',
+      provider: 'Command Central Mechanical Workshop',
       status: 'In Progress',
-      technician: 'Master Tech J. Kowalski'
+      technician: 'Master Tech Ibrahim Usman'
     },
     {
       id: 'MNT-302',
       vehicleId: 'VEH-101',
       vehicleReg: 'POL-2041',
       vehicleModel: 'Ford Police Interceptor Utility',
-      type: '10,000-Mile Scheduled Service',
+      type: '15,000-km Scheduled Service',
       description: 'Synthetic engine oil change, oil filter, air filter, and multi-point tire pressure check.',
-      cost: 220,
+      cost: 180000,
       reportedDate: '2026-09-10',
       serviceDate: '2026-09-12',
       nextServiceDate: '2027-01-15',
-      provider: 'Metro Fleet Central Workshop',
+      provider: 'Command Central Mechanical Workshop',
       status: 'Completed',
-      technician: 'Tech A. Rivera'
+      technician: 'Sgt. Adebayo Ogun'
     },
     {
       id: 'MNT-303',
@@ -784,13 +784,13 @@
       vehicleModel: 'Lenco BearCat G3 Armored',
       type: 'Pneumatics & Ballistic Glass Check',
       description: 'Hydraulic turret motor inspection, run-flat tire seal inspection, and battery bank load test.',
-      cost: 1450,
+      cost: 1250000,
       reportedDate: '2026-08-18',
       serviceDate: '2026-08-20',
       nextServiceDate: '2026-12-10',
       provider: 'Specialized Armor Support Services',
       status: 'Completed',
-      technician: 'Lead Armorer E. Stone'
+      technician: 'Inspector Emeka Okoye'
     },
     {
       id: 'MNT-304',
@@ -799,13 +799,13 @@
       vehicleModel: 'Chevrolet Tahoe PPV',
       type: 'K-9 Air Conditioning & Siren Overhaul',
       description: 'Secondary kennel climate system compressor servicing and whelen siren speaker test.',
-      cost: 510,
+      cost: 320000,
       reportedDate: '2026-09-02',
       serviceDate: '2026-09-05',
       nextServiceDate: '2026-12-28',
-      provider: 'Metro Fleet Central Workshop',
+      provider: 'Command Central Mechanical Workshop',
       status: 'Completed',
-      technician: 'Tech M. Santos'
+      technician: 'Cpl. Musa Bello'
     },
     {
       id: 'MNT-305',
@@ -814,13 +814,13 @@
       vehicleModel: 'BMW R1250RT-P',
       type: 'Drive Shaft & Clutch Inspection',
       description: 'Police package final drive oil flush, clutch cable tension adjustment, and blue beacon wiring.',
-      cost: 380,
+      cost: 240000,
       reportedDate: '2026-10-12',
       serviceDate: '2026-10-15',
       nextServiceDate: '2027-02-15',
-      provider: 'BMW Certified Motor Authority',
+      provider: 'Command Central Workshop — Motorbike Division',
       status: 'Completed',
-      technician: 'Tech H. Klein'
+      technician: 'Sgt. Chidi Nwosu'
     },
     {
       id: 'MNT-306',
@@ -829,13 +829,13 @@
       vehicleModel: 'Ford Transit 350HD Prisoner Van',
       type: 'Transmission Flush & Security Partition',
       description: 'Automatic transmission fluid flush, rear cell latch electronic sensor recalibration.',
-      cost: 620,
+      cost: 520000,
       reportedDate: '2026-11-04',
       serviceDate: '2026-11-09',
       nextServiceDate: '2027-03-01',
-      provider: 'Metro Fleet Central Workshop',
+      provider: 'Command Central Mechanical Workshop',
       status: 'Pending',
-      technician: 'TBD'
+      technician: 'Inspector Kenneth Eze'
     }
   ];
 

@@ -36,7 +36,7 @@
     setElText('mnt-kpi-inprogress', inProgress);
     setElText('mnt-kpi-pending', pending);
     setElText('mnt-kpi-completed', completed);
-    setElText('mnt-kpi-totalcost', `$${totalCost.toLocaleString()}`);
+    setElText('mnt-kpi-totalcost', `₦${totalCost.toLocaleString()}`);
   }
 
   // 2. Render Maintenance Logs Table
@@ -99,7 +99,7 @@
             <div style="font-size: 0.72rem; color: var(--text-secondary); max-width: 260px;">${m.description}</div>
           </td>
           <td>
-            <div style="font-size: 0.76rem;">${m.provider || 'Metro Workshop'}</div>
+            <div style="font-size: 0.76rem;">${m.provider || 'Command Central Workshop'}</div>
             <div style="font-size: 0.7rem; color: var(--text-muted);"><i class="fa-solid fa-user-gear"></i> ${m.technician || 'Assigned Tech'}</div>
           </td>
           <td>
@@ -109,7 +109,7 @@
             </div>
           </td>
           <td>
-            <span style="font-family: var(--font-mono); font-weight: 700; color: var(--text-main);">$${Number(m.cost).toLocaleString()}</span>
+            <span style="font-family: var(--font-mono); font-weight: 700; color: var(--text-main);">₦${Number(m.cost).toLocaleString()}</span>
           </td>
           <td>
             <span class="status-pill ${statusClass}">
@@ -187,6 +187,11 @@
     const dateInput = document.getElementById('form-mnt-reported-date');
     if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
 
+    setFormVal('form-mnt-cost', '');
+    setFormVal('form-mnt-provider', '');
+    setFormVal('form-mnt-tech', '');
+    setFormVal('form-mnt-desc', '');
+
     window.FleetApp.openModal('maintenance-crud-modal');
   }
 
@@ -220,8 +225,8 @@
     const repDate = getFormVal('form-mnt-reported-date');
     const srvDate = getFormVal('form-mnt-service-date') || repDate;
     const nextDate = getFormVal('form-mnt-next-date');
-    const provider = getFormVal('form-mnt-provider').trim() || 'Central Fleet Workshop';
-    const tech = getFormVal('form-mnt-tech').trim() || 'Staff Technician';
+    const provider = getFormVal('form-mnt-provider').trim() || 'Command Central Mechanical Workshop';
+    const tech = getFormVal('form-mnt-tech').trim() || 'Master Tech Ibrahim Usman';
     const status = getFormVal('form-mnt-status');
 
     if (!vehId || !type) {
