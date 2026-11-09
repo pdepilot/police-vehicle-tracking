@@ -1,0 +1,326 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nigeria Police Force (Imo State Command) - Trip Dispatch Assignments</title>
+  <meta name="description" content="Police Fleet Management and Real-Time Vehicle Tracking System." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Master & Responsive CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+  <div class="app-container">
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo-icon">
+          <img src="images/nigeria-police-logo.png" alt="Nigeria Police Force Logo" class="npf-sidebar-logo" />
+        </div>
+        <div class="sidebar-logo-text">
+          <div class="sidebar-brand-name">
+            NIGERIA <span class="sidebar-brand-badge">POLICE</span>
+          </div>
+          <span class="sidebar-subtext">Imo State Command</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Command & Operations</div>
+        <a href="dashboard.html" class="nav-link">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="tracking.html" class="nav-link">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Live Tracking</span>
+          <span class="nav-badge badge-blue">GPS</span>
+        </a>
+        <a href="trips.html" class="nav-link active">
+          <i class="fa-solid fa-route"></i>
+          <span>Trip Assignments</span>
+          <span class="nav-badge badge-amber" id="nav-badge-trips" style="display:none;">0</span>
+        </a>
+        <a href="trip-history.html" class="nav-link">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Trip History</span>
+        </a>
+
+        <div class="nav-section-title">Fleet Assets & Personnel</div>
+        <a href="vehicles.html" class="nav-link">
+          <i class="fa-solid fa-car"></i>
+          <span>Vehicle Inventory</span>
+        </a>
+        <a href="drivers.html" class="nav-link">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>Driver Roster</span>
+        </a>
+        <a href="maintenance.html" class="nav-link">
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+          <span>Maintenance</span>
+          <span class="nav-badge badge-red" id="nav-badge-mnt" style="display:none;">0</span>
+        </a>
+        <a href="fuel.html" class="nav-link">
+          <i class="fa-solid fa-gas-pump"></i>
+          <span>Fuel Management</span>
+        </a>
+
+        <div class="nav-section-title">Intelligence & Config</div>
+        <a href="notifications.html" class="nav-link">
+          <i class="fa-solid fa-bell"></i>
+          <span>Notifications</span>
+          <span class="nav-badge badge-red" id="nav-badge-notif" style="display:none;">0</span>
+        </a>
+        <a href="reports.html" class="nav-link">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Reports & Analytics</span>
+        </a>
+        <a href="settings.html" class="nav-link">
+          <i class="fa-solid fa-sliders"></i>
+          <span>System Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="system-status-indicator">
+          <span class="pulse-dot"></span>
+          <span>TELEMETRICS ONLINE (DEMO)</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
+      <!-- TOP NAVIGATION -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="header-page-title-group">
+            <h1 class="header-page-title">
+              <i class="fa-solid fa-route text-blue-600" style="color: var(--primary);"></i> Trip & Dispatch Assignments
+            </h1>
+            <div class="header-breadcrumbs">
+              <span>Imo State Command</span>
+              <i class="fa-solid fa-chevron-right" style="font-size: 0.65rem;"></i>
+              <span>Dispatch Orders</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="live-clock-badge" id="header-live-clock">
+            <i class="fa-regular fa-clock"></i> <span>--:--:--</span>
+          </div>
+
+          <div class="demo-data-pill">
+            <i class="fa-solid fa-shield-halved"></i> DEMO DATA
+          </div>
+
+          <button class="btn-zip-download btn-download-zip" title="Download Complete Project ZIP Archive">
+            <i class="fa-solid fa-file-zipper"></i>
+            <span>Download ZIP</span>
+          </button>
+
+          <!-- Notifications Dropdown -->
+          <div style="position: relative;">
+            <button class="icon-btn" id="notif-dropdown-btn" aria-label="Notifications">
+              <i class="fa-regular fa-bell"></i>
+              <span class="badge-counter" id="notif-badge-count" style="display:none;">0</span>
+            </button>
+            <div class="dropdown-menu" id="notif-dropdown-menu">
+              <div class="dropdown-header">
+                <span class="dropdown-title"><i class="fa-solid fa-bell text-blue-600"></i> Dispatch Alerts</span>
+                <button class="dropdown-action-btn" id="dropdown-mark-all-btn">Mark All Read</button>
+              </div>
+              <div class="dropdown-body" id="dropdown-notif-list"></div>
+              <div class="dropdown-footer">
+                <a href="notifications.html">View All Notifications <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Profile -->
+          <div style="position: relative;">
+            <button class="user-profile-btn" id="user-profile-btn">
+              <div class="user-avatar">NPF</div>
+              <div class="user-info-text">
+                <div class="user-name">Imo State Command</div>
+                <div class="user-role">Nigeria Police Force</div>
+              </div>
+              <i class="fa-solid fa-angle-down" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+            </button>
+            <div class="dropdown-menu user-dropdown-menu" id="user-dropdown-menu">
+              <a href="settings.html" class="user-dropdown-item"><i class="fa-solid fa-id-badge"></i> Officer Profile</a>
+              <a href="settings.html" class="user-dropdown-item"><i class="fa-solid fa-sliders"></i> System Settings</a>
+              <div style="border-top: 1px solid var(--border-light); margin: 4px 0;"></div>
+              <div class="user-dropdown-item danger" onclick="FleetStorage.logout()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+
+        <!-- DISPATCH ASSIGNMENT FORM CARD -->
+        <div class="content-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h2 class="card-title">
+                <i class="fa-solid fa-clipboard-list text-blue-600"></i> New Operational Dispatch Order
+              </h2>
+              <span class="card-subtitle">Authorize vehicle deployment & assign qualified police personnel</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <form id="trip-dispatch-form">
+              <div class="form-grid">
+                <!-- Auto-Generated Trip ID -->
+                <div class="form-group">
+                  <label class="form-label" for="dispatch-trip-id">Trip Dispatch Identifier (Auto-Generated)</label>
+                  <input type="text" id="dispatch-trip-id" class="form-control" readonly style="font-family: var(--font-mono); font-weight: 700; color: var(--primary);" />
+                </div>
+
+                <!-- Priority Level -->
+                <div class="form-group">
+                  <label class="form-label required" for="dispatch-priority">Mission Priority Tier</label>
+                  <select id="dispatch-priority" class="form-control" required>
+                    <option value="Priority 2 - Routine Operational">Priority 2 - Routine Operational Patrol</option>
+                    <option value="Priority 1 - High Visibility">Priority 1 - High Visibility / Crime Prevention</option>
+                    <option value="Priority 1 - Emergency Tactical">Priority 1 - Emergency Tactical Response</option>
+                    <option value="Priority 2 - Security Custody">Priority 2 - Security Detainee Custody</option>
+                    <option value="Priority 1 - VIP Security">Priority 1 - Dignitary VIP Escort</option>
+                  </select>
+                </div>
+
+                <!-- Vehicle Selection -->
+                <div class="form-group">
+                  <label class="form-label required" for="dispatch-vehicle-select">Deployment Vehicle (Available Only)</label>
+                  <select id="dispatch-vehicle-select" class="form-control" required>
+                    <!-- Populated dynamically: unavailable vehicles disabled -->
+                  </select>
+                  <span class="form-helper"><i class="fa-solid fa-circle-info"></i> Units in maintenance or on active trips cannot be selected.</span>
+                </div>
+
+                <!-- Driver Selection -->
+                <div class="form-group">
+                  <label class="form-label required" for="dispatch-driver-select">Assigned Officer / Driver</label>
+                  <select id="dispatch-driver-select" class="form-control" required>
+                    <!-- Populated dynamically -->
+                  </select>
+                  <span class="form-helper"><i class="fa-solid fa-circle-info"></i> Only verified on-duty officers are available for assignment.</span>
+                </div>
+
+                <!-- Starting Location -->
+                <div class="form-group">
+                  <label class="form-label required" for="dispatch-origin">Starting Location / Staging Post</label>
+                  <input type="text" id="dispatch-origin" class="form-control" required value="Central Headquarters Depot" placeholder="e.g. Central Precinct Bay 4" />
+                </div>
+
+                <!-- Destination -->
+                <div class="form-group">
+                  <label class="form-label required" for="dispatch-destination">Destination / Patrol Sector</label>
+                  <input type="text" id="dispatch-destination" class="form-control" required placeholder="e.g. Financial District Sector 2, Airport Expressway" />
+                </div>
+
+                <!-- Departure Date & Time -->
+                <div class="form-group">
+                  <label class="form-label required" for="dispatch-dep-date">Departure Date</label>
+                  <input type="date" id="dispatch-dep-date" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label required" for="dispatch-dep-time">Departure Time</label>
+                  <input type="time" id="dispatch-dep-time" class="form-control" required />
+                </div>
+
+                <!-- Expected Arrival -->
+                <div class="form-group">
+                  <label class="form-label required" for="dispatch-exp-arrival">Expected Arrival / Return Time</label>
+                  <input type="time" id="dispatch-exp-arrival" class="form-control" required />
+                </div>
+
+                <!-- Operational Purpose -->
+                <div class="form-group">
+                  <label class="form-label required" for="dispatch-purpose">Journey / Mission Purpose</label>
+                  <input type="text" id="dispatch-purpose" class="form-control" required placeholder="e.g. High-Speed Intercept Patrol, VIP Escort, Crime Scene Sweep" />
+                </div>
+
+                <!-- Additional Notes -->
+                <div class="form-group full-width">
+                  <label class="form-label" for="dispatch-notes">Special Dispatch Directives & Notes</label>
+                  <textarea id="dispatch-notes" class="form-control" rows="2" placeholder="Specific dispatch parameters, radio channel assignments, backup rendezvous..."></textarea>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; border-top: 1px solid var(--border-light); padding-top: 1.25rem;">
+                <button type="button" class="btn btn-secondary" id="btn-reset-dispatch-form">Reset Form</button>
+                <button type="submit" class="btn btn-primary btn-lg">
+                  <i class="fa-solid fa-paper-plane"></i> Authorize & Dispatch Mission
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- ACTIVE DISPATCHES TABLE -->
+        <div class="content-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h2 class="card-title">
+                <i class="fa-solid fa-tower-broadcast text-blue-600"></i> Active & Scheduled Dispatches
+              </h2>
+              <span class="card-subtitle" id="active-dispatches-count">Loading active units...</span>
+            </div>
+            <div class="card-actions">
+              <a href="trip-history.html" class="btn btn-secondary btn-sm">
+                View Archived Logs <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Trip ID & Priority</th>
+                    <th>Vehicle</th>
+                    <th>Officer</th>
+                    <th>Destination & Purpose</th>
+                    <th>Schedule</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="active-trips-tbody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Core App Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/trips.js"></script>
+</body>
+</html>

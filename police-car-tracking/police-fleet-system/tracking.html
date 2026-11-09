@@ -1,0 +1,356 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nigeria Police Force (Imo State Command) - Live Radar Tracking</title>
+  <meta name="description" content="Police Fleet Management and Real-Time Vehicle Tracking System." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Master & Responsive CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+
+  <style>
+    /* Tracking layout specific styles */
+    .tracking-viewport {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - var(--header-height));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tracking-sidebar-panel {
+      width: 340px;
+      background: var(--bg-card);
+      border-right: 1px solid var(--border-light);
+      display: flex;
+      flex-direction: column;
+      z-index: 20;
+      box-shadow: var(--shadow-md);
+      flex-shrink: 0;
+    }
+
+    .tracking-map-container {
+      flex: 1;
+      height: 100%;
+      position: relative;
+    }
+
+    .tracking-telemetry-drawer {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      width: 380px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.25);
+      z-index: 30;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      animation: slideUp 0.25s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(15px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @media (max-width: 900px) {
+      .tracking-viewport {
+        flex-direction: column;
+        height: auto;
+      }
+      .tracking-sidebar-panel {
+        width: 100%;
+        max-height: 280px;
+      }
+      .tracking-map-container {
+        height: 500px;
+      }
+      .tracking-telemetry-drawer {
+        width: calc(100% - 24px);
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo-icon">
+          <img src="images/nigeria-police-logo.png" alt="Nigeria Police Force Logo" class="npf-sidebar-logo" />
+        </div>
+        <div class="sidebar-logo-text">
+          <div class="sidebar-brand-name">
+            NIGERIA <span class="sidebar-brand-badge">POLICE</span>
+          </div>
+          <span class="sidebar-subtext">Imo State Command</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Command & Operations</div>
+        <a href="dashboard.html" class="nav-link">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="tracking.html" class="nav-link active">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Live Tracking</span>
+          <span class="nav-badge badge-blue">GPS</span>
+        </a>
+        <a href="trips.html" class="nav-link">
+          <i class="fa-solid fa-route"></i>
+          <span>Trip Assignments</span>
+          <span class="nav-badge badge-amber" id="nav-badge-trips" style="display:none;">0</span>
+        </a>
+        <a href="trip-history.html" class="nav-link">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Trip History</span>
+        </a>
+
+        <div class="nav-section-title">Fleet Assets & Personnel</div>
+        <a href="vehicles.html" class="nav-link">
+          <i class="fa-solid fa-car"></i>
+          <span>Vehicle Inventory</span>
+        </a>
+        <a href="drivers.html" class="nav-link">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>Driver Roster</span>
+        </a>
+        <a href="maintenance.html" class="nav-link">
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+          <span>Maintenance</span>
+          <span class="nav-badge badge-red" id="nav-badge-mnt" style="display:none;">0</span>
+        </a>
+        <a href="fuel.html" class="nav-link">
+          <i class="fa-solid fa-gas-pump"></i>
+          <span>Fuel Management</span>
+        </a>
+
+        <div class="nav-section-title">Intelligence & Config</div>
+        <a href="notifications.html" class="nav-link">
+          <i class="fa-solid fa-bell"></i>
+          <span>Notifications</span>
+          <span class="nav-badge badge-red" id="nav-badge-notif" style="display:none;">0</span>
+        </a>
+        <a href="reports.html" class="nav-link">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Reports & Analytics</span>
+        </a>
+        <a href="settings.html" class="nav-link">
+          <i class="fa-solid fa-sliders"></i>
+          <span>System Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="system-status-indicator">
+          <span class="pulse-dot"></span>
+          <span>TELEMETRICS ONLINE (DEMO)</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
+      <!-- TOP NAVIGATION -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="header-page-title-group">
+            <h1 class="header-page-title">
+              <i class="fa-solid fa-satellite-dish text-blue-600" style="color: var(--primary);"></i> Live Telemetry & GPS Tracking
+            </h1>
+            <div class="header-breadcrumbs">
+              <span>Imo State Command</span>
+              <i class="fa-solid fa-chevron-right" style="font-size: 0.65rem;"></i>
+              <span>Live Radar</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="live-clock-badge" id="header-live-clock">
+            <i class="fa-regular fa-clock"></i> <span>--:--:--</span>
+          </div>
+
+          <div class="demo-data-pill">
+            <i class="fa-solid fa-shield-halved"></i> DEMO DATA — SIMULATED GPS
+          </div>
+
+          <button class="btn-zip-download btn-download-zip" title="Download Complete Project ZIP Archive">
+            <i class="fa-solid fa-file-zipper"></i>
+            <span>Download ZIP</span>
+          </button>
+
+          <!-- Notifications Dropdown -->
+          <div style="position: relative;">
+            <button class="icon-btn" id="notif-dropdown-btn" aria-label="Notifications">
+              <i class="fa-regular fa-bell"></i>
+              <span class="badge-counter" id="notif-badge-count" style="display:none;">0</span>
+            </button>
+            <div class="dropdown-menu" id="notif-dropdown-menu">
+              <div class="dropdown-header">
+                <span class="dropdown-title"><i class="fa-solid fa-bell text-blue-600"></i> Dispatch Alerts</span>
+                <button class="dropdown-action-btn" id="dropdown-mark-all-btn">Mark All Read</button>
+              </div>
+              <div class="dropdown-body" id="dropdown-notif-list"></div>
+              <div class="dropdown-footer">
+                <a href="notifications.html">View All Notifications <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Profile -->
+          <div style="position: relative;">
+            <button class="user-profile-btn" id="user-profile-btn">
+              <div class="user-avatar">NPF</div>
+              <div class="user-info-text">
+                <div class="user-name">Imo State Command</div>
+                <div class="user-role">Nigeria Police Force</div>
+              </div>
+              <i class="fa-solid fa-angle-down" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+            </button>
+            <div class="dropdown-menu user-dropdown-menu" id="user-dropdown-menu">
+              <a href="settings.html" class="user-dropdown-item"><i class="fa-solid fa-id-badge"></i> Officer Profile</a>
+              <a href="settings.html" class="user-dropdown-item"><i class="fa-solid fa-sliders"></i> System Settings</a>
+              <div style="border-top: 1px solid var(--border-light); margin: 4px 0;"></div>
+              <div class="user-dropdown-item danger" onclick="FleetStorage.logout()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- TRACKING VIEWPORT (Split sidebar & map) -->
+      <div class="tracking-viewport">
+        <!-- Sidebar Units List -->
+        <div class="tracking-sidebar-panel">
+          <div style="padding: 1rem; border-bottom: 1px solid var(--border-light); background: var(--bg-card-subtle);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+              <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; color: var(--text-main);">
+                <i class="fa-solid fa-tower-broadcast text-blue-600"></i> Active Patrol Units
+              </span>
+              <span class="status-pill status-available" id="track-list-count" style="font-size: 0.65rem;">0 units</span>
+            </div>
+
+            <div class="search-box" style="width: 100%; min-width: auto; margin-bottom: 0.5rem;">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="track-search-input" class="search-input" placeholder="Search callsign, plate, driver..." style="padding-left: 2.2rem; font-size: 0.78rem;" />
+            </div>
+
+            <div style="display: flex; gap: 0.5rem;">
+              <select id="track-filter-status" class="filter-select" style="flex: 1; padding: 0.4rem 1.8rem 0.4rem 0.65rem; font-size: 0.75rem;">
+                <option value="ALL">All Units</option>
+                <option value="On Trip">On Patrol / Trip Only</option>
+                <option value="Available">Available Only</option>
+                <option value="SIREN">Emergency Siren Active</option>
+              </select>
+
+              <button class="btn btn-secondary btn-sm" id="btn-toggle-simulation" title="Pause/Resume live simulated movement">
+                <i class="fa-solid fa-pause"></i> Pause
+              </button>
+            </div>
+          </div>
+
+          <div id="tracking-vehicle-list" style="flex: 1; overflow-y: auto;">
+            <!-- Rendered by tracking.js -->
+          </div>
+        </div>
+
+        <!-- Full Interactive Map -->
+        <div class="tracking-map-container">
+          <div id="tracking-full-map" style="width: 100%; height: 100%;"></div>
+
+          <!-- Bottom Floating Telemetry Drawer for Selected Vehicle -->
+          <div class="tracking-telemetry-drawer" id="tracking-telemetry-drawer">
+            <div style="background: var(--navy-dark); color: #fff; padding: 0.85rem 1.25rem; display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span class="plate-badge" id="drawer-veh-reg" style="font-size: 0.75rem;">POL-0000</span>
+                <strong id="drawer-veh-callsign" style="font-size: 1rem; color: #38bdf8;">Call Sign</strong>
+              </div>
+              <button id="btn-close-telemetry-drawer" style="background: none; border: none; color: #94a3b8; font-size: 1.2rem; cursor: pointer;">&times;</button>
+            </div>
+
+            <div style="padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div id="drawer-veh-makemodel" style="font-weight: 700; font-size: 0.95rem; color: var(--text-main);">Ford Police Interceptor</div>
+                  <div id="drawer-veh-dept" style="font-size: 0.72rem; color: var(--text-muted);">Patrol Division</div>
+                </div>
+                <span id="drawer-status-pill" class="status-pill status-ontrip">
+                  <span class="dot"></span> On Patrol
+                </span>
+              </div>
+
+              <!-- Speed & Telemetry Grid -->
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.65rem; background: var(--bg-card-subtle); padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); text-align: center;">
+                <div>
+                  <span style="font-size: 0.68rem; color: var(--text-muted); display: block;">Speed</span>
+                  <strong id="drawer-veh-speed" style="font-family: var(--font-mono); font-size: 1.15rem; color: var(--primary);">0 MPH</strong>
+                </div>
+                <div>
+                  <span style="font-size: 0.68rem; color: var(--text-muted); display: block;">Heading</span>
+                  <strong id="drawer-veh-heading" style="font-family: var(--font-mono); font-size: 1.15rem; color: var(--text-main);">NW</strong>
+                </div>
+                <div>
+                  <span style="font-size: 0.68rem; color: var(--text-muted); display: block;">Fuel / Batt</span>
+                  <strong id="drawer-veh-fuel" style="font-family: var(--font-mono); font-size: 1.15rem; color: #16a34a;">85%</strong>
+                </div>
+              </div>
+
+              <div style="font-size: 0.78rem; display: flex; flex-direction: column; gap: 4px;">
+                <div><strong>Assigned Officer:</strong> <span id="drawer-veh-driver">Sgt. Marcus Cole</span></div>
+                <div><strong>Current Sector / Location:</strong> <span id="drawer-veh-location">Expressway Sector 4</span></div>
+                <div><strong>GPS Coordinates:</strong> <span id="drawer-veh-coords" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">37.7840, -122.4080</span></div>
+                <div><strong>Total Distance:</strong> <span id="drawer-veh-mileage">24,120 mi</span></div>
+              </div>
+
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.25rem;">
+                <button id="btn-toggle-siren" class="btn btn-secondary btn-sm" style="flex: 1;">
+                  <i class="fa-solid fa-bullhorn"></i> Toggle Siren
+                </button>
+                <a href="trips.html" class="btn btn-primary btn-sm" style="flex: 1;">
+                  <i class="fa-solid fa-route"></i> Dispatch
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Core App Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/tracking.js"></script>
+</body>
+</html>

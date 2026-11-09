@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nigeria Police Force (Imo State Command) - Notifications & Dispatch Alerts</title>
+  <meta name="description" content="Police Fleet Management and Real-Time Vehicle Tracking System." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Master & Responsive CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+  <div class="app-container">
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo-icon">
+          <img src="images/nigeria-police-logo.png" alt="Nigeria Police Force Logo" class="npf-sidebar-logo" />
+        </div>
+        <div class="sidebar-logo-text">
+          <div class="sidebar-brand-name">
+            NIGERIA <span class="sidebar-brand-badge">POLICE</span>
+          </div>
+          <span class="sidebar-subtext">Imo State Command</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Command & Operations</div>
+        <a href="dashboard.html" class="nav-link">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="tracking.html" class="nav-link">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Live Tracking</span>
+          <span class="nav-badge badge-blue">GPS</span>
+        </a>
+        <a href="trips.html" class="nav-link">
+          <i class="fa-solid fa-route"></i>
+          <span>Trip Assignments</span>
+          <span class="nav-badge badge-amber" id="nav-badge-trips" style="display:none;">0</span>
+        </a>
+        <a href="trip-history.html" class="nav-link">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Trip History</span>
+        </a>
+
+        <div class="nav-section-title">Fleet Assets & Personnel</div>
+        <a href="vehicles.html" class="nav-link">
+          <i class="fa-solid fa-car"></i>
+          <span>Vehicle Inventory</span>
+        </a>
+        <a href="drivers.html" class="nav-link">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>Driver Roster</span>
+        </a>
+        <a href="maintenance.html" class="nav-link">
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+          <span>Maintenance</span>
+          <span class="nav-badge badge-red" id="nav-badge-mnt" style="display:none;">0</span>
+        </a>
+        <a href="fuel.html" class="nav-link">
+          <i class="fa-solid fa-gas-pump"></i>
+          <span>Fuel Management</span>
+        </a>
+
+        <div class="nav-section-title">Intelligence & Config</div>
+        <a href="notifications.html" class="nav-link active">
+          <i class="fa-solid fa-bell"></i>
+          <span>Notifications</span>
+          <span class="nav-badge badge-red" id="nav-badge-notif" style="display:none;">0</span>
+        </a>
+        <a href="reports.html" class="nav-link">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Reports & Analytics</span>
+        </a>
+        <a href="settings.html" class="nav-link">
+          <i class="fa-solid fa-sliders"></i>
+          <span>System Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="system-status-indicator">
+          <span class="pulse-dot"></span>
+          <span>TELEMETRICS ONLINE (DEMO)</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
+      <!-- TOP NAVIGATION -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="header-page-title-group">
+            <h1 class="header-page-title">
+              <i class="fa-solid fa-bell text-blue-600" style="color: var(--primary);"></i> Fleet Alerts & Dispatch Feed
+            </h1>
+            <div class="header-breadcrumbs">
+              <span>Imo State Command</span>
+              <i class="fa-solid fa-chevron-right" style="font-size: 0.65rem;"></i>
+              <span>Notifications Center</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="live-clock-badge" id="header-live-clock">
+            <i class="fa-regular fa-clock"></i> <span>--:--:--</span>
+          </div>
+
+          <div class="demo-data-pill">
+            <i class="fa-solid fa-shield-halved"></i> DEMO DATA
+          </div>
+
+          <button class="btn-zip-download btn-download-zip" title="Download Complete Project ZIP Archive">
+            <i class="fa-solid fa-file-zipper"></i>
+            <span>Download ZIP</span>
+          </button>
+
+          <!-- Notifications Dropdown -->
+          <div style="position: relative;">
+            <button class="icon-btn" id="notif-dropdown-btn" aria-label="Notifications">
+              <i class="fa-regular fa-bell"></i>
+              <span class="badge-counter" id="notif-badge-count" style="display:none;">0</span>
+            </button>
+            <div class="dropdown-menu" id="notif-dropdown-menu">
+              <div class="dropdown-header">
+                <span class="dropdown-title"><i class="fa-solid fa-bell text-blue-600"></i> Dispatch Alerts</span>
+                <button class="dropdown-action-btn" id="dropdown-mark-all-btn">Mark All Read</button>
+              </div>
+              <div class="dropdown-body" id="dropdown-notif-list"></div>
+              <div class="dropdown-footer">
+                <a href="notifications.html">View All Notifications <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Profile -->
+          <div style="position: relative;">
+            <button class="user-profile-btn" id="user-profile-btn">
+              <div class="user-avatar">NPF</div>
+              <div class="user-info-text">
+                <div class="user-name">Imo State Command</div>
+                <div class="user-role">Nigeria Police Force</div>
+              </div>
+              <i class="fa-solid fa-angle-down" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+            </button>
+            <div class="dropdown-menu user-dropdown-menu" id="user-dropdown-menu">
+              <a href="settings.html" class="user-dropdown-item"><i class="fa-solid fa-id-badge"></i> Officer Profile</a>
+              <a href="settings.html" class="user-dropdown-item"><i class="fa-solid fa-sliders"></i> System Settings</a>
+              <div style="border-top: 1px solid var(--border-light); margin: 4px 0;"></div>
+              <div class="user-dropdown-item danger" onclick="FleetStorage.logout()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+
+        <!-- TOOLBAR -->
+        <div class="filters-toolbar">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <span class="status-pill status-available" id="notif-page-count">0 unread</span>
+            <select id="notif-filter-type" class="filter-select">
+              <option value="ALL">All Alert Categories</option>
+              <option value="alert">Emergency / Priority Alerts</option>
+              <option value="assignment">Dispatch Assignments</option>
+              <option value="maintenance">Maintenance Warnings</option>
+              <option value="completed">Completed Missions</option>
+              <option value="update">Operational Updates</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <button class="btn btn-secondary btn-sm" id="btn-generate-test-alert">
+              <i class="fa-solid fa-bolt"></i> Generate Test Alert
+            </button>
+            <button class="btn btn-secondary btn-sm" id="btn-mark-all-read">
+              <i class="fa-solid fa-check-double"></i> Mark All as Read
+            </button>
+            <button class="btn btn-danger btn-sm" id="btn-clear-all-notifs">
+              <i class="fa-regular fa-trash-can"></i> Clear Feed
+            </button>
+          </div>
+        </div>
+
+        <!-- NOTIFICATIONS FEED -->
+        <div id="notifications-full-list" style="display: flex; flex-direction: column; gap: 0.85rem;">
+          <!-- Populated by notifications.js -->
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Core App Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/notifications.js"></script>
+</body>
+</html>

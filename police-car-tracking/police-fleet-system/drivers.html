@@ -1,0 +1,399 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nigeria Police Force (Imo State Command) - Driver & Officer Roster</title>
+  <meta name="description" content="Police Fleet Management and Real-Time Vehicle Tracking System." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Master & Responsive CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+  <div class="app-container">
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo-icon">
+          <img src="images/nigeria-police-logo.png" alt="Nigeria Police Force Logo" class="npf-sidebar-logo" />
+        </div>
+        <div class="sidebar-logo-text">
+          <div class="sidebar-brand-name">
+            NIGERIA <span class="sidebar-brand-badge">POLICE</span>
+          </div>
+          <span class="sidebar-subtext">Imo State Command</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Command & Operations</div>
+        <a href="dashboard.html" class="nav-link">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="tracking.html" class="nav-link">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Live Tracking</span>
+          <span class="nav-badge badge-blue">GPS</span>
+        </a>
+        <a href="trips.html" class="nav-link">
+          <i class="fa-solid fa-route"></i>
+          <span>Trip Assignments</span>
+          <span class="nav-badge badge-amber" id="nav-badge-trips" style="display:none;">0</span>
+        </a>
+        <a href="trip-history.html" class="nav-link">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Trip History</span>
+        </a>
+
+        <div class="nav-section-title">Fleet Assets & Personnel</div>
+        <a href="vehicles.html" class="nav-link">
+          <i class="fa-solid fa-car"></i>
+          <span>Vehicle Inventory</span>
+        </a>
+        <a href="drivers.html" class="nav-link active">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>Driver Roster</span>
+        </a>
+        <a href="maintenance.html" class="nav-link">
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+          <span>Maintenance</span>
+          <span class="nav-badge badge-red" id="nav-badge-mnt" style="display:none;">0</span>
+        </a>
+        <a href="fuel.html" class="nav-link">
+          <i class="fa-solid fa-gas-pump"></i>
+          <span>Fuel Management</span>
+        </a>
+
+        <div class="nav-section-title">Intelligence & Config</div>
+        <a href="notifications.html" class="nav-link">
+          <i class="fa-solid fa-bell"></i>
+          <span>Notifications</span>
+          <span class="nav-badge badge-red" id="nav-badge-notif" style="display:none;">0</span>
+        </a>
+        <a href="reports.html" class="nav-link">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Reports & Analytics</span>
+        </a>
+        <a href="settings.html" class="nav-link">
+          <i class="fa-solid fa-sliders"></i>
+          <span>System Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="system-status-indicator">
+          <span class="pulse-dot"></span>
+          <span>TELEMETRICS ONLINE (DEMO)</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
+      <!-- TOP NAVIGATION -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="header-page-title-group">
+            <h1 class="header-page-title">
+              <i class="fa-solid fa-user-shield text-blue-600" style="color: var(--primary);"></i> Authorized Driver & Officer Roster
+            </h1>
+            <div class="header-breadcrumbs">
+              <span>Imo State Command</span>
+              <i class="fa-solid fa-chevron-right" style="font-size: 0.65rem;"></i>
+              <span>Officers</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="live-clock-badge" id="header-live-clock">
+            <i class="fa-regular fa-clock"></i> <span>--:--:--</span>
+          </div>
+
+          <div class="demo-data-pill">
+            <i class="fa-solid fa-shield-halved"></i> DEMO DATA
+          </div>
+
+          <button class="btn-zip-download btn-download-zip" title="Download Complete Project ZIP Archive">
+            <i class="fa-solid fa-file-zipper"></i>
+            <span>Download ZIP</span>
+          </button>
+
+          <!-- Notifications Dropdown -->
+          <div style="position: relative;">
+            <button class="icon-btn" id="notif-dropdown-btn" aria-label="Notifications">
+              <i class="fa-regular fa-bell"></i>
+              <span class="badge-counter" id="notif-badge-count" style="display:none;">0</span>
+            </button>
+            <div class="dropdown-menu" id="notif-dropdown-menu">
+              <div class="dropdown-header">
+                <span class="dropdown-title"><i class="fa-solid fa-bell text-blue-600"></i> Dispatch Alerts</span>
+                <button class="dropdown-action-btn" id="dropdown-mark-all-btn">Mark All Read</button>
+              </div>
+              <div class="dropdown-body" id="dropdown-notif-list"></div>
+              <div class="dropdown-footer">
+                <a href="notifications.html">View All Notifications <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Profile -->
+          <div style="position: relative;">
+            <button class="user-profile-btn" id="user-profile-btn">
+              <div class="user-avatar">NPF</div>
+              <div class="user-info-text">
+                <div class="user-name">Imo State Command</div>
+                <div class="user-role">Nigeria Police Force</div>
+              </div>
+              <i class="fa-solid fa-angle-down" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+            </button>
+            <div class="dropdown-menu user-dropdown-menu" id="user-dropdown-menu">
+              <a href="settings.html" class="user-dropdown-item"><i class="fa-solid fa-id-badge"></i> Officer Profile</a>
+              <a href="settings.html" class="user-dropdown-item"><i class="fa-solid fa-sliders"></i> System Settings</a>
+              <div style="border-top: 1px solid var(--border-light); margin: 4px 0;"></div>
+              <div class="user-dropdown-item danger" onclick="FleetStorage.logout()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+
+        <!-- SEARCH & FILTERS TOOLBAR -->
+        <div class="filters-toolbar">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="driver-search-input" class="search-input" placeholder="Search officer by name, badge #, rank, division..." />
+          </div>
+
+          <div class="filter-group">
+            <select id="driver-filter-status" class="filter-select">
+              <option value="ALL">All Duty Statuses</option>
+              <option value="On Duty">On Duty (Available for Call)</option>
+              <option value="Off Duty">Off Duty</option>
+              <option value="On Leave">On Leave</option>
+            </select>
+
+            <select id="driver-filter-department" class="filter-select">
+              <option value="ALL">All Divisions</option>
+              <option value="Patrol Division">Patrol Division</option>
+              <option value="Highway Patrol">Highway Patrol</option>
+              <option value="SWAT / Special Ops">SWAT / Special Ops</option>
+              <option value="K-9 Tactical Unit">K-9 Tactical Unit</option>
+              <option value="Marine & Harbor Unit">Marine & Harbor Unit</option>
+              <option value="Traffic Bureau">Traffic Bureau</option>
+              <option value="Criminal Investigation">Criminal Investigation</option>
+              <option value="Detention Bureau">Detention Bureau</option>
+            </select>
+
+            <button class="btn btn-secondary btn-sm" id="btn-export-drivers-csv" title="Export Officer Roster to CSV">
+              <i class="fa-solid fa-file-csv"></i> Export CSV
+            </button>
+
+            <button class="btn btn-primary" id="btn-open-add-driver">
+              <i class="fa-solid fa-user-plus"></i> Enroll Officer
+            </button>
+          </div>
+        </div>
+
+        <!-- ROSTER STATUS HEADER -->
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <h2 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 700; color: var(--text-main);">
+            <i class="fa-solid fa-id-card-clip" style="color: var(--primary);"></i> Certified EVOC Drivers & Tactical Operators
+          </h2>
+          <span class="status-pill status-available" id="drivers-count-badge">Loading roster...</span>
+        </div>
+
+        <!-- DRIVER ROSTER GRID -->
+        <div class="stats-grid" id="drivers-grid-container" style="grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));">
+          <!-- Populated by drivers.js -->
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT DRIVER -->
+  <div class="modal-overlay" id="driver-crud-modal">
+    <div class="modal-box lg">
+      <div class="modal-header">
+        <h3 class="modal-title" id="driver-modal-title">
+          <i class="fa-solid fa-user-plus text-blue-600"></i> Enroll Officer
+        </h3>
+        <button class="modal-close-btn" onclick="FleetApp.closeModal('driver-crud-modal')">&times;</button>
+      </div>
+      <form id="driver-modal-form">
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label required" for="form-drv-badge">Police Badge Number</label>
+              <input type="text" id="form-drv-badge" class="form-control" required placeholder="e.g. 4821" style="font-family: var(--font-mono);" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required" for="form-drv-rank">Rank / Title</label>
+              <select id="form-drv-rank" class="form-control">
+                <option value="Officer">Officer</option>
+                <option value="Senior Officer">Senior Officer</option>
+                <option value="Corporal">Corporal</option>
+                <option value="Sergeant">Sergeant</option>
+                <option value="Lieutenant">Lieutenant</option>
+                <option value="Detective">Detective</option>
+                <option value="K-9 Specialist">K-9 Specialist</option>
+                <option value="Motor Officer">Motor Officer</option>
+                <option value="Transport Officer">Transport Officer</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required" for="form-drv-firstname">First Name</label>
+              <input type="text" id="form-drv-firstname" class="form-control" required placeholder="e.g. Marcus" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required" for="form-drv-lastname">Last Name</label>
+              <input type="text" id="form-drv-lastname" class="form-control" required placeholder="e.g. Cole" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="form-drv-dept">Assigned Division</label>
+              <select id="form-drv-dept" class="form-control">
+                <option value="Patrol Division">Patrol Division</option>
+                <option value="Highway Patrol">Highway Patrol</option>
+                <option value="SWAT / Special Ops">SWAT / Special Ops</option>
+                <option value="K-9 Tactical Unit">K-9 Tactical Unit</option>
+                <option value="Marine & Harbor Unit">Marine & Harbor Unit</option>
+                <option value="Traffic Bureau">Traffic Bureau</option>
+                <option value="Criminal Investigation">Criminal Investigation</option>
+                <option value="Detention Bureau">Detention Bureau</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="form-drv-status">Duty Readiness Status</label>
+              <select id="form-drv-status" class="form-control">
+                <option value="On Duty">On Duty (Available for Dispatch)</option>
+                <option value="Off Duty">Off Duty</option>
+                <option value="On Leave">On Leave / Training</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="form-drv-phone">Dispatch Contact Phone</label>
+              <input type="text" id="form-drv-phone" class="form-control" placeholder="(555) 019-4821" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="form-drv-email">Official Police Email</label>
+              <input type="email" id="form-drv-email" class="form-control" placeholder="m.cole@metropolice.gov" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="form-drv-license">Driver License Classification</label>
+              <select id="form-drv-license" class="form-control">
+                <option value="Class C Standard">Class C Standard</option>
+                <option value="Class C Commercial">Class C Commercial</option>
+                <option value="Class B Heavy Endorsement">Class B Heavy (Armored/Bus)</option>
+                <option value="Class A Commercial">Class A Commercial</option>
+                <option value="Class M Motorcycle Certified">Class M Motorcycle</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="form-drv-evoc">EVOC Certification Level</label>
+              <select id="form-drv-evoc" class="form-control">
+                <option value="EVOC Level 1 Standard">EVOC Level 1 Standard</option>
+                <option value="EVOC Level 2 Specialist">EVOC Level 2 Specialist</option>
+                <option value="EVOC High-Speed Specialist">EVOC High-Speed Specialist</option>
+                <option value="EVOC Master Instructor">EVOC Master Instructor</option>
+                <option value="Tactical Armored Master">Tactical Armored Master</option>
+                <option value="Police Motorcycle Master">Police Motorcycle Master</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="form-drv-vehicle">Permanently Assigned Cruiser</label>
+              <select id="form-drv-vehicle" class="form-control">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="form-drv-years">Years of Department Service</label>
+              <input type="number" id="form-drv-years" class="form-control" value="5" min="1" max="40" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="FleetApp.closeModal('driver-crud-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Officer Record</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: VIEW OFFICER DOSSIER -->
+  <div class="modal-overlay" id="driver-dossier-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <i class="fa-solid fa-user-shield text-blue-600"></i> Officer Dossier: <span id="dossier-badge" style="font-family: var(--font-mono); margin-left: 6px; color: var(--primary);">BADGE #0000</span>
+        </h3>
+        <button class="modal-close-btn" onclick="FleetApp.closeModal('driver-dossier-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; gap: 1rem; align-items: center; background: var(--bg-card-subtle); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); margin-bottom: 1.25rem;">
+          <div class="user-avatar" style="width: 52px; height: 52px; font-size: 1.4rem;">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <div>
+            <h4 id="dossier-name" style="font-family: var(--font-heading); font-size: 1.2rem; font-weight: 800; color: var(--text-main);">Officer Name</h4>
+            <div style="font-size: 0.8rem; color: var(--text-muted);"><span id="dossier-dept">Patrol Division</span> &bull; <span id="dossier-status" style="font-weight: 700; color: #16a34a;">On Duty</span></div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.82rem; margin-bottom: 1.25rem;">
+          <div><strong>Dispatch Phone:</strong> <span id="dossier-phone"></span></div>
+          <div><strong>Department Email:</strong> <span id="dossier-email"></span></div>
+          <div><strong>License Class:</strong> <span id="dossier-license"></span></div>
+          <div><strong>EVOC Level:</strong> <span id="dossier-evoc"></span></div>
+          <div><strong>Service Record:</strong> <span id="dossier-years"></span></div>
+          <div><strong>Assigned Cruiser:</strong> <span id="dossier-vehicle" class="plate-badge"></span></div>
+        </div>
+
+        <div>
+          <strong style="font-size: 0.82rem; display: block; margin-bottom: 0.5rem;"><i class="fa-solid fa-certificate text-blue-600"></i> Verified Tactical Certifications:</strong>
+          <div id="dossier-certs-list" style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+            <!-- Populated -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="FleetApp.closeModal('driver-dossier-modal')">Close Dossier</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core App Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/drivers.js"></script>
+</body>
+</html>
