@@ -69,23 +69,29 @@
       const isSiren = veh.sirenActive;
       const isSelected = selectedVehicleId === veh.id;
 
-      let iconHtml = '<i class="fa-solid fa-car-side"></i>';
-      if (veh.type === 'SUV') iconHtml = '<i class="fa-solid fa-truck-monster"></i>';
-      else if (veh.type === 'Motorcycle') iconHtml = '<i class="fa-solid fa-motorcycle"></i>';
-      else if (veh.type === 'Truck') iconHtml = '<i class="fa-solid fa-truck-pickup"></i>';
-      else if (veh.type === 'Armored Tactical') iconHtml = '<i class="fa-solid fa-shield-halved"></i>';
+      // 3D Isometric Vehicular Representation
+      let customIcon = null;
+      if (window.FleetApp && typeof window.FleetApp.get3DVehicleDivIcon === 'function') {
+        customIcon = window.FleetApp.get3DVehicleDivIcon(veh, isSelected);
+      } else {
+        let iconHtml = '<i class="fa-solid fa-car-side"></i>';
+        if (veh.type === 'SUV') iconHtml = '<i class="fa-solid fa-truck-monster"></i>';
+        else if (veh.type === 'Motorcycle') iconHtml = '<i class="fa-solid fa-motorcycle"></i>';
+        else if (veh.type === 'Truck') iconHtml = '<i class="fa-solid fa-truck-pickup"></i>';
+        else if (veh.type === 'Armored Tactical') iconHtml = '<i class="fa-solid fa-shield-halved"></i>';
 
-      const customIcon = window.L.divIcon({
-        className: 'custom-tracking-marker',
-        html: `
-          <div class="vehicle-map-marker ${isOnTrip ? 'on-trip' : ''} ${isSiren ? 'siren-on' : ''} ${isSelected ? 'selected' : ''}" style="${isSelected ? 'transform: scale(1.25); border-color: #f59e0b; box-shadow: 0 0 15px #f59e0b;' : ''}">
-            ${iconHtml}
-          </div>
-        `,
-        iconSize: [38, 38],
-        iconAnchor: [19, 19],
-        popupAnchor: [0, -22]
-      });
+        customIcon = window.L.divIcon({
+          className: 'custom-tracking-marker',
+          html: `
+            <div class="vehicle-map-marker ${isOnTrip ? 'on-trip' : ''} ${isSiren ? 'siren-on' : ''} ${isSelected ? 'selected' : ''}" style="${isSelected ? 'transform: scale(1.25); border-color: #f59e0b; box-shadow: 0 0 15px #f59e0b;' : ''}">
+              ${iconHtml}
+            </div>
+          `,
+          iconSize: [38, 38],
+          iconAnchor: [19, 19],
+          popupAnchor: [0, -22]
+        });
+      }
 
       if (vehicleMarkers[veh.id]) {
         // Smoothly animate marker to new coordinates
@@ -255,9 +261,13 @@
           veh.lat = Number((veh.lat + deltaLat).toFixed(5));
           veh.lng = Number((veh.lng + deltaLng).toFixed(5));
 
+          // Calculate dynamic 3D heading based on motion vector
+          const headingDegrees = Math.round(((Math.atan2(deltaLng, deltaLat) * 180 / Math.PI) + 360) % 360);
+          veh.heading = headingDegrees;
+
           // Fluctuate speed slightly
           const speedVariance = (Math.random() - 0.5) * 6;
-          veh.speed = Math.max(15, Math.min(65, Math.round(veh.speed + speedVariance)));
+          veh.speed = Math.max(15, Math.min(85, Math.round((veh.speed || 40) + speedVariance)));
 
           updatedAny = true;
         }
@@ -271,7 +281,7 @@
         if (selectedVehicleId) {
           const cur = vehicles.find(v => v.id === selectedVehicleId);
           if (cur) {
-            setElText('drawer-veh-speed', `${cur.speed} MPH`);
+            setElText('drawer-veh-speed', `${cur.speed} KM/H`);
             setElText('drawer-veh-coords', `${cur.lat.toFixed(4)}, ${cur.lng.toFixed(4)}`);
           }
         }

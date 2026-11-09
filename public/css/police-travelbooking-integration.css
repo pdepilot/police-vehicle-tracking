@@ -361,3 +361,459 @@
   background: var(--error-soft);
 }
 
+/* ==========================================================================
+   EXECUTIVE COMMAND NAVBAR (HORIZONTAL DASHBOARD MODULE NAVIGATION)
+   ========================================================================== */
+.command-navbar {
+  background: var(--ivory);
+  border-bottom: 1px solid var(--hairline);
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  box-shadow: 0 2px 8px rgba(11, 30, 61, 0.04);
+}
+
+.command-navbar-scroll {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 24px;
+  height: 46px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.command-navbar-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.command-nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 100%;
+  padding: 0 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 2.5px solid transparent;
+  transition: all 0.2s ease;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.command-nav-item i {
+  font-size: 14px;
+  color: var(--muted);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.command-nav-item:hover {
+  color: var(--navy);
+  background: rgba(168, 132, 44, 0.05);
+}
+
+.command-nav-item:hover i {
+  color: var(--navy);
+  transform: translateY(-1px);
+}
+
+.command-nav-item.active {
+  color: var(--navy) !important;
+  font-weight: 700 !important;
+  border-bottom-color: var(--gold) !important;
+  background: linear-gradient(180deg, rgba(168, 132, 44, 0.08) 0%, rgba(11, 30, 61, 0.02) 100%) !important;
+}
+
+.command-nav-item.active i {
+  color: var(--gold) !important;
+}
+
+.command-nav-pulse {
+  width: 6px;
+  height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.7);
+  animation: navPulseRing 1.8s infinite;
+  margin-left: 2px;
+}
+
+@keyframes navPulseRing {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.7); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(46, 125, 50, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 125, 50, 0); }
+}
+
+/* ==========================================================================
+   MODAL FIXES — COMMISSION VEHICLE & ALL SYSTEM MODALS
+   Guarantees no hidden elements, pinned header/footer, smooth scroll
+   ========================================================================== */
+.modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(6, 15, 33, 0.75) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  display: none;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2500 !important;
+  padding: 1.5rem !important;
+  overflow-y: auto !important;
+  box-sizing: border-box !important;
+}
+
+.modal-overlay.show {
+  display: flex !important;
+}
+
+.modal-box {
+  background: var(--ivory) !important;
+  border: 1px solid var(--hairline) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 25px 70px rgba(6, 15, 33, 0.45) !important;
+  width: 100% !important;
+  max-width: 680px !important;
+  max-height: calc(100vh - 3rem) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  margin: auto !important;
+  position: relative !important;
+  animation: modalScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.modal-box.lg {
+  max-width: 880px !important;
+}
+
+@keyframes modalScaleIn {
+  from { transform: scale(0.96) translateY(8px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* Form Flex Container - Essential for scrollable body */
+.modal-box form,
+.modal-box > form,
+#vehicle-modal-form {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+}
+
+.modal-box .modal-header {
+  background: var(--cream-soft) !important;
+  border-bottom: 1px solid var(--hairline-soft) !important;
+  padding: 16px 24px !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.modal-box .modal-title {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 1.35rem !important;
+  font-weight: 600 !important;
+  color: var(--navy) !important;
+  letter-spacing: -0.01em !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin: 0 !important;
+}
+
+.modal-box .modal-title i {
+  color: var(--gold) !important;
+}
+
+.modal-box .modal-close-btn {
+  background: transparent !important;
+  border: 1px solid var(--hairline) !important;
+  color: var(--navy) !important;
+  width: 32px !important;
+  height: 32px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  font-size: 1.25rem !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  transition: all 0.2s ease !important;
+}
+
+.modal-box .modal-close-btn:hover {
+  background: var(--error-soft) !important;
+  color: var(--error) !important;
+  border-color: var(--error-soft) !important;
+}
+
+.modal-box .modal-body {
+  padding: 24px !important;
+  overflow-y: auto !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  max-height: calc(88vh - 140px) !important;
+  background: var(--ivory) !important;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) var(--cream-soft);
+}
+
+.modal-box .modal-body::-webkit-scrollbar {
+  width: 7px;
+}
+
+.modal-box .modal-body::-webkit-scrollbar-track {
+  background: var(--cream-soft);
+}
+
+.modal-box .modal-body::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 3px;
+}
+
+.modal-box .form-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 14px 18px !important;
+}
+
+@media (max-width: 680px) {
+  .modal-box .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.modal-box .form-group.full-width {
+  grid-column: 1 / -1 !important;
+}
+
+.modal-box .form-label {
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: var(--navy) !important;
+  margin-bottom: 6px !important;
+  display: block !important;
+}
+
+.modal-box .form-label.required::after {
+  content: " *" !important;
+  color: var(--error) !important;
+}
+
+.modal-box .form-control {
+  background: #ffffff !important;
+  border: 1px solid var(--hairline) !important;
+  border-radius: 2px !important;
+  color: var(--navy) !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 13px !important;
+  padding: 8px 12px !important;
+  height: 40px !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.modal-box textarea.form-control {
+  height: auto !important;
+  min-height: 72px !important;
+  resize: vertical !important;
+}
+
+.modal-box .form-control:focus {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 2px rgba(168, 132, 44, 0.2) !important;
+  outline: none !important;
+}
+
+.modal-box .modal-footer {
+  background: var(--cream-soft) !important;
+  border-top: 1px solid var(--hairline-soft) !important;
+  padding: 14px 24px !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 12px !important;
+  position: sticky !important;
+  bottom: 0 !important;
+  z-index: 10 !important;
+}
+
+.modal-box .modal-footer .btn {
+  height: 40px !important;
+  padding: 0 20px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  border-radius: 2px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+}
+
+.modal-box .modal-footer .btn-secondary {
+  background: transparent !important;
+  border: 1px solid var(--hairline) !important;
+  color: var(--navy) !important;
+}
+
+.modal-box .modal-footer .btn-secondary:hover {
+  background: var(--ivory) !important;
+  border-color: var(--navy) !important;
+}
+
+.modal-box .modal-footer .btn-primary {
+  background: var(--navy) !important;
+  border: 1px solid var(--navy) !important;
+  color: var(--ivory) !important;
+}
+
+.modal-box .modal-footer .btn-primary:hover {
+  background: var(--navy-soft) !important;
+  border-color: var(--navy-soft) !important;
+  color: var(--gold-soft) !important;
+}
+
+/* ==========================================================================
+   3D VEHICULAR REPRESENTATION ON LIVE MAPS
+   High-Fidelity Isometric Top-Down Police Vehicles with Directional Heading,
+   Dual Whelen LED Strobes, Tactical HUD Badge & Dynamic Ground Shadow
+   ========================================================================== */
+.leaflet-marker-pane .veh-3d-pin-container {
+  overflow: visible !important;
+}
+
+.veh-3d-pin {
+  position: relative;
+  width: 54px;
+  height: 64px;
+  perspective: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.veh-3d-model {
+  position: relative;
+  width: 48px;
+  height: 60px;
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 10px 14px rgba(6, 15, 33, 0.42));
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
+  will-change: transform;
+}
+
+.veh-3d-pin:hover .veh-3d-model {
+  transform: scale(1.18) translateY(-4px) !important;
+  filter: drop-shadow(0 16px 20px rgba(6, 15, 33, 0.58)) !important;
+}
+
+/* Counter-rotated floating HUD tag with callsign and speed */
+.veh-3d-hud-tag {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--navy-deep);
+  color: var(--ivory);
+  border: 1px solid var(--gold);
+  border-radius: 2px;
+  padding: 2px 7px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 10px rgba(6, 15, 33, 0.35);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  z-index: 10;
+}
+
+.veh-3d-hud-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.veh-3d-hud-dot.patrol { background: var(--green); box-shadow: 0 0 5px var(--green); }
+.veh-3d-hud-dot.standby { background: var(--gold); }
+.veh-3d-hud-dot.siren { background: var(--error); box-shadow: 0 0 6px var(--error); animation: dotBlink 0.6s infinite alternate; }
+
+@keyframes dotBlink {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+
+/* Alternating High-Intensity Whelen LED Emergency Strobes */
+.strobe-blue {
+  animation: strobeBlueFlash 0.45s infinite alternate;
+}
+
+.strobe-red {
+  animation: strobeRedFlash 0.45s infinite alternate;
+}
+
+@keyframes strobeBlueFlash {
+  0% { opacity: 0.25; filter: drop-shadow(0 0 1px #0066ff); }
+  100% { opacity: 1; filter: drop-shadow(0 0 10px #0077ff); }
+}
+
+@keyframes strobeRedFlash {
+  0% { opacity: 1; filter: drop-shadow(0 0 10px #ff1a3c); }
+  100% { opacity: 0.25; filter: drop-shadow(0 0 1px #ff1a3c); }
+}
+
+/* 3D Siren Shockwave Ring */
+.veh-3d-siren-wave {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  margin-top: -22px;
+  margin-left: -22px;
+  border-radius: 50%;
+  border: 2px solid var(--error);
+  pointer-events: none;
+  animation: sirenWave3D 1.4s infinite cubic-bezier(0.2, 0.8, 0.4, 1);
+}
+
+@keyframes sirenWave3D {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+

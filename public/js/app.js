@@ -19,17 +19,33 @@
   }
   applyTheme();
 
-  // Highlight Active Link in Sidebar
+  // Highlight Active Link in Sidebar & Command Navbar
   function highlightActiveSidebar() {
-    const currentPath = window.location.pathname.split('/').pop() || 'dashboard.html';
-    const navLinks = document.querySelectorAll('.sidebar-nav .nav-link');
+    const currentPathname = (window.location.pathname.replace(/\/+$/, '') || '/dashboard').toLowerCase();
+    const navLinks = document.querySelectorAll('.sidebar-nav .nav-link, .command-nav-item');
+    
     navLinks.forEach(link => {
       const href = link.getAttribute('href');
-      if (href && (href === currentPath || (currentPath === '' && href === 'dashboard.html'))) {
-        link.classList.add('active');
-      } else {
-        link.classList.remove('active');
-      }
+      if (!href) return;
+      try {
+        const linkUrl = new URL(link.href, window.location.origin);
+        const linkPath = (linkUrl.pathname.replace(/\/+$/, '') || '/dashboard').toLowerCase();
+        
+        const isExact = (linkPath === currentPathname) ||
+                        ((currentPathname === '' || currentPathname === '/') && (linkPath === '/dashboard' || linkPath === ''));
+        const isSubPath = linkPath !== '/dashboard' && linkPath !== '/' && linkPath.length > 1 && currentPathname.startsWith(linkPath);
+        
+        if (isExact || isSubPath) {
+          link.classList.add('active');
+          link.setAttribute('aria-current', 'page');
+        } else {
+          // If server blade set active and it matches module prefix, keep it; otherwise remove
+          if (!currentPathname.includes(linkPath.replace(/^\//, ''))) {
+            link.classList.remove('active');
+            link.removeAttribute('aria-current');
+          }
+        }
+      } catch (e) {}
     });
   }
 
@@ -425,6 +441,157 @@
     });
   });
 
+  // 3D Vehicular Representation Generator for Leaflet Maps
+  function get3DVehicleDivIcon(veh, isSelected) {
+    if (!window.L) return null;
+
+    const headingAngles = {
+      'N': 0, 'NNE': 22.5, 'NE': 45, 'ENE': 67.5,
+      'E': 90, 'ESE': 112.5, 'SE': 135, 'SSE': 157.5,
+      'S': 180, 'SSW': 202.5, 'SW': 225, 'WSW': 247.5,
+      'W': 270, 'WNW': 292.5, 'NW': 315, 'NNW': 337.5
+    };
+
+    let headingDeg = 0;
+    if (typeof veh.heading === 'number') {
+      headingDeg = veh.heading;
+    } else if (veh.heading && headingAngles[veh.heading.toUpperCase()] !== undefined) {
+      headingDeg = headingAngles[veh.heading.toUpperCase()];
+    } else if (veh.heading && !isNaN(parseFloat(veh.heading))) {
+      headingDeg = parseFloat(veh.heading);
+    }
+
+    const isOnTrip = veh.status === 'On Trip';
+    const isSiren = Boolean(veh.sirenActive);
+    const type = veh.type || 'SUV';
+
+    let bodySvg = '';
+
+    if (type === 'Motorcycle') {
+      bodySvg = `
+        <svg viewBox="0 0 54 64" width="54" height="64" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="27" cy="34" rx="12" ry="22" fill="rgba(6,15,33,0.4)" filter="blur(2.5px)" />
+          <rect x="25" y="6" width="4" height="12" rx="2" fill="#1e293b" />
+          <rect x="25" y="44" width="4" height="14" rx="2" fill="#1e293b" />
+          <path d="M24 18 L30 18 L31 46 L23 46 Z" fill="#334155" />
+          <rect x="21" y="38" width="2" height="14" fill="#94a3b8" />
+          <rect x="31" y="38" width="2" height="14" fill="#94a3b8" />
+          <rect x="15" y="34" width="7" height="14" rx="1.5" fill="#0b1e3d" stroke="#a8842c" stroke-width="0.8" />
+          <rect x="32" y="34" width="7" height="14" rx="1.5" fill="#0b1e3d" stroke="#a8842c" stroke-width="0.8" />
+          <ellipse cx="27" cy="28" rx="6" ry="8" fill="#1e3a5f" />
+          <circle cx="27" cy="23" r="4.5" fill="#f8fafc" stroke="#0b1e3d" stroke-width="1" />
+          <path d="M24 22 L30 22" stroke="#0ea5e9" stroke-width="1.5" stroke-linecap="round" />
+          <path d="M21 15 Q27 10 33 15 L32 20 L22 20 Z" fill="#0b1e3d" stroke="#a8842c" stroke-width="0.8" />
+          <path d="M23 15 Q27 12 31 15" stroke="#38bdf8" stroke-width="2" fill="none" opacity="0.85" />
+          <circle cx="20" cy="14" r="2.2" fill="#0066ff" class="${isOnTrip || isSiren ? 'strobe-blue' : ''}" />
+          <circle cx="34" cy="14" r="2.2" fill="#ff1a3c" class="${isOnTrip || isSiren ? 'strobe-red' : ''}" />
+          <line x1="34" y1="42" x2="34" y2="34" stroke="#94a3b8" stroke-width="1" />
+          <circle cx="34" cy="33" r="2" fill="#0066ff" class="${isOnTrip || isSiren ? 'strobe-blue' : ''}" />
+        </svg>
+      `;
+    } else if (type === 'Sedan') {
+      bodySvg = `
+        <svg viewBox="0 0 54 64" width="54" height="64" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="27" cy="36" rx="16" ry="24" fill="rgba(6,15,33,0.45)" filter="blur(3px)" />
+          <path d="M20 7 L34 7 L33 10 L21 10 Z" fill="#0f172a" stroke="#475569" stroke-width="0.8" />
+          <line x1="22" y1="7" x2="22" y2="12" stroke="#e2e8f0" stroke-width="1" />
+          <line x1="32" y1="7" x2="32" y2="12" stroke="#e2e8f0" stroke-width="1" />
+          <rect x="13" y="10" width="28" height="46" rx="6" fill="#0b1e3d" stroke="#a8842c" stroke-width="1" />
+          <path d="M16 11 L38 11 L37 23 L17 23 Z" fill="#122647" />
+          <line x1="27" y1="12" x2="27" y2="21" stroke="#a8842c" stroke-width="0.8" opacity="0.6" />
+          <ellipse cx="16" cy="11" rx="2.5" ry="1.5" fill="#fef08a" />
+          <ellipse cx="38" cy="11" rx="2.5" ry="1.5" fill="#fef08a" />
+          <path d="M16 23 L38 23 L36 30 L18 30 Z" fill="#1e3a5f" stroke="#38bdf8" stroke-width="0.8" />
+          <line x1="20" y1="25" x2="32" y2="28" stroke="#ffffff" stroke-width="1" opacity="0.4" />
+          <rect x="17" y="30" width="20" height="15" rx="2" fill="#0b1e3d" />
+          <text x="27" y="39" font-family="'DM Sans',sans-serif" font-size="5" font-weight="700" fill="#a8842c" text-anchor="middle" letter-spacing="0.5">NPF</text>
+          <rect x="16" y="32" width="22" height="4" rx="1.5" fill="#091427" stroke="#475569" stroke-width="0.6" />
+          <rect x="17" y="33" width="9" height="2" rx="1" fill="#0066ff" class="${isOnTrip || isSiren ? 'strobe-blue' : ''}" />
+          <rect x="28" y="33" width="9" height="2" rx="1" fill="#ff1a3c" class="${isOnTrip || isSiren ? 'strobe-red' : ''}" />
+          <path d="M18 45 L36 45 L37 50 L17 50 Z" fill="#1e3a5f" opacity="0.9" />
+          <path d="M15 50 L39 50 L38 55 L16 55 Z" fill="#122647" />
+          <line x1="14" y1="54" x2="40" y2="54" stroke="#a8842c" stroke-width="1.2" />
+          <rect x="15" y="55" width="5" height="1.5" fill="#ef4444" />
+          <rect x="34" y="55" width="5" height="1.5" fill="#ef4444" />
+        </svg>
+      `;
+    } else if (type === 'Armored Tactical') {
+      bodySvg = `
+        <svg viewBox="0 0 54 64" width="54" height="64" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="27" cy="36" rx="19" ry="25" fill="rgba(6,15,33,0.5)" filter="blur(3.5px)" />
+          <rect x="13" y="6" width="28" height="5" rx="1.5" fill="#1e293b" stroke="#64748b" stroke-width="1" />
+          <line x1="18" y1="6" x2="18" y2="11" stroke="#f59e0b" stroke-width="1.2" />
+          <line x1="36" y1="6" x2="36" y2="11" stroke="#f59e0b" stroke-width="1.2" />
+          <polygon points="12,11 42,11 44,52 38,58 16,58 10,52" fill="#0f172a" stroke="#a8842c" stroke-width="1.2" />
+          <rect x="16" y="18" width="9" height="5" rx="1" fill="#0284c7" stroke="#38bdf8" stroke-width="0.8" />
+          <rect x="29" y="18" width="9" height="5" rx="1" fill="#0284c7" stroke="#38bdf8" stroke-width="0.8" />
+          <circle cx="27" cy="33" r="8" fill="#1e293b" stroke="#a8842c" stroke-width="1.5" />
+          <circle cx="27" cy="33" r="5" fill="#0f172a" />
+          <rect x="14" y="24" width="6" height="3" rx="1" fill="#0066ff" class="${isOnTrip || isSiren ? 'strobe-blue' : ''}" />
+          <rect x="34" y="24" width="6" height="3" rx="1" fill="#ff1a3c" class="${isOnTrip || isSiren ? 'strobe-red' : ''}" />
+          <rect x="9" y="25" width="2.5" height="18" rx="1" fill="#334155" />
+          <rect x="42.5" y="25" width="2.5" height="18" rx="1" fill="#334155" />
+          <text x="27" y="49" font-family="'DM Sans',sans-serif" font-size="5" font-weight="800" fill="#f8fafc" text-anchor="middle" letter-spacing="1">SWAT</text>
+        </svg>
+      `;
+    } else {
+      // Default & SUV (Pursuit Utility)
+      bodySvg = `
+        <svg viewBox="0 0 54 64" width="54" height="64" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="27" cy="36" rx="18" ry="25" fill="rgba(6,15,33,0.45)" filter="blur(3px)" />
+          <path d="M18 6 L36 6 L35 10 L19 10 Z" fill="#0f172a" stroke="#64748b" stroke-width="1" />
+          <circle cx="22" cy="7.5" r="1.5" fill="#f59e0b" />
+          <circle cx="32" cy="7.5" r="1.5" fill="#f59e0b" />
+          <rect x="12" y="10" width="30" height="48" rx="7" fill="#0b1e3d" stroke="#a8842c" stroke-width="1.1" />
+          <path d="M15 11 L39 11 L38 23 L16 23 Z" fill="#132a4e" />
+          <rect x="20" y="13" width="14" height="7" rx="2" fill="#0b1e3d" opacity="0.6" />
+          <ellipse cx="15.5" cy="11.5" rx="2.8" ry="1.8" fill="#fef08a" />
+          <ellipse cx="38.5" cy="11.5" rx="2.8" ry="1.8" fill="#fef08a" />
+          <circle cx="12" cy="22" r="2" fill="#e2e8f0" stroke="#0f172a" stroke-width="0.8" />
+          <circle cx="42" cy="22" r="2" fill="#e2e8f0" stroke="#0f172a" stroke-width="0.8" />
+          <path d="M15 23 L39 23 L37 31 L17 31 Z" fill="#173154" stroke="#38bdf8" stroke-width="0.8" />
+          <line x1="19" y1="25" x2="33" y2="29" stroke="#ffffff" stroke-width="1.2" opacity="0.45" />
+          <rect x="15" y="31" width="24" height="18" rx="2" fill="#0b1e3d" />
+          <text x="27" y="41" font-family="'DM Sans',sans-serif" font-size="5.2" font-weight="700" fill="#f8fafc" text-anchor="middle" letter-spacing="0.6">POLICE</text>
+          <rect x="14" y="32" width="26" height="4.5" rx="1.5" fill="#091427" stroke="#475569" stroke-width="0.8" />
+          <rect x="15.5" y="33" width="11" height="2.5" rx="1" fill="#0066ff" class="${isOnTrip || isSiren ? 'strobe-blue' : ''}" />
+          <rect x="27.5" y="33" width="11" height="2.5" rx="1" fill="#ff1a3c" class="${isOnTrip || isSiren ? 'strobe-red' : ''}" />
+          <path d="M16 49 L38 49 L37 53 L17 53 Z" fill="#173154" opacity="0.9" />
+          <path d="M14 53 L40 53 L39 57 L15 57 Z" fill="#132a4e" />
+          <line x1="15" y1="56" x2="39" y2="56" stroke="#ef4444" stroke-width="1.5" />
+        </svg>
+      `;
+    }
+
+    const hudHtml = `
+      <div class="veh-3d-hud-tag" style="transform: translateX(-50%) rotateZ(${-headingDeg}deg);">
+        <span class="veh-3d-hud-dot ${isSiren ? 'siren' : (isOnTrip ? 'patrol' : 'standby')}"></span>
+        <span>${veh.callSign || veh.registration}</span>
+        ${veh.speed !== undefined ? `<span style="opacity:0.75;font-weight:400;margin-left:3px;">${veh.speed} km/h</span>` : ''}
+      </div>
+    `;
+
+    const sirenWaveHtml = isSiren ? '<div class="veh-3d-siren-wave"></div>' : '';
+
+    const iconHtml = `
+      <div class="veh-3d-pin ${isSelected ? 'selected' : ''}" title="${veh.registration} - ${veh.callSign}">
+        ${sirenWaveHtml}
+        <div class="veh-3d-model" style="transform: rotateZ(${headingDeg}deg);">
+          ${bodySvg}
+          ${hudHtml}
+        </div>
+      </div>
+    `;
+
+    return window.L.divIcon({
+      className: 'veh-3d-pin-container',
+      html: iconHtml,
+      iconSize: [54, 64],
+      iconAnchor: [27, 32],
+      popupAnchor: [0, -32]
+    });
+  }
+
   // Public FleetApp Namespace
   window.FleetApp = {
     showToast,
@@ -434,7 +601,8 @@
     exportToCSV,
     downloadProjectZip,
     handleNotificationClick,
-    updateDynamicBadges
+    updateDynamicBadges,
+    get3DVehicleDivIcon
   };
 
 })(window);

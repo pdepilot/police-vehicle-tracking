@@ -244,23 +244,25 @@
       const isOnTrip = veh.status === 'On Trip';
       const isSiren = veh.sirenActive;
 
-      let iconHtml = '<i class="bi bi-car-front-fill"></i>';
-      if (veh.type === 'SUV') iconHtml = '<i class="bi bi-truck-front-fill"></i>';
-      else if (veh.type === 'Motorcycle') iconHtml = '<i class="bi bi-bicycle"></i>';
-      else if (veh.type === 'Truck') iconHtml = '<i class="bi bi-truck"></i>';
-      else if (veh.type === 'Armored Tactical') iconHtml = '<i class="bi bi-shield-shaded"></i>';
+      // 3D Isometric Vehicular Representation
+      let customIcon = null;
+      if (window.FleetApp && typeof window.FleetApp.get3DVehicleDivIcon === 'function') {
+        customIcon = window.FleetApp.get3DVehicleDivIcon(veh, false);
+      } else {
+        let iconHtml = '<i class="bi bi-car-front-fill"></i>';
+        if (veh.type === 'SUV') iconHtml = '<i class="bi bi-truck-front-fill"></i>';
+        else if (veh.type === 'Motorcycle') iconHtml = '<i class="bi bi-bicycle"></i>';
+        else if (veh.type === 'Truck') iconHtml = '<i class="bi bi-truck"></i>';
+        else if (veh.type === 'Armored Tactical') iconHtml = '<i class="bi bi-shield-shaded"></i>';
 
-      const customIcon = window.L.divIcon({
-        className: 'custom-leaflet-marker',
-        html: `
-          <div class="vehicle-map-marker ${isOnTrip ? 'on-trip' : ''} ${isSiren ? 'siren-on' : ''}" title="${veh.registration} - ${veh.callSign}">
-            ${iconHtml}
-          </div>
-        `,
-        iconSize: [36, 36],
-        iconAnchor: [18, 18],
-        popupAnchor: [0, -20]
-      });
+        customIcon = window.L.divIcon({
+          className: 'custom-leaflet-marker',
+          html: `<div class="vehicle-map-marker ${isOnTrip ? 'on-trip' : ''} ${isSiren ? 'siren-on' : ''}">${iconHtml}</div>`,
+          iconSize: [36, 36],
+          iconAnchor: [18, 18],
+          popupAnchor: [0, -20]
+        });
+      }
 
       const popupContent = `
         <div class="custom-leaflet-popup">
@@ -269,16 +271,16 @@
             <span class="plate-badge">${veh.registration}</span>
           </div>
           <div class="popup-body">
-            <div><strong>Model:</strong> ${veh.year} ${veh.make} ${veh.model}</div>
+            <div><strong>Model:</strong> ${veh.year} ${veh.make} ${veh.model} (${veh.type})</div>
             <div><strong>Division:</strong> ${veh.department}</div>
             <div><strong>Assigned Officer:</strong> ${veh.assignedDriverName || 'None'}</div>
-            <div><strong>Speed:</strong> <span class="cell-mono">${veh.speed} MPH</span> (${veh.heading})</div>
+            <div><strong>Speed:</strong> <span class="cell-mono">${veh.speed} KM/H</span> (${veh.heading})</div>
             <div style="margin-top: 4px;">
               <span class="status-pill status-${veh.status.toLowerCase().replace(/\s+/g, '')}"><span class="dot"></span> ${veh.status}</span>
             </div>
             <div style="margin-top: 8px; text-align: right;">
               <a href="/tracking?focus=${veh.id}" class="btn btn-navy btn-xs">
-                <i class="bi bi-crosshair"></i> Live Track
+                <i class="bi bi-crosshair"></i> Live Radar Track
               </a>
             </div>
           </div>

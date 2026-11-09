@@ -30,7 +30,23 @@ class FleetRoutesTest extends TestCase
             $response->assertSee('dash-shell', false);
             $response->assertSee('float-nav', false);
             $response->assertSee('dash-topbar', false);
+            $response->assertSee('command-navbar', false);
+            $response->assertSee('command-nav-item active', false);
         }
+    }
+
+    public function test_vehicles_view_renders_commission_modal_correctly(): void
+    {
+        $response = $this->get('/vehicles');
+        $response->assertStatus(200);
+        $response->assertSee('id="vehicle-crud-modal"', false);
+        $response->assertSee('modal-box lg', false);
+        $response->assertSee('id="vehicle-modal-form"', false);
+        $response->assertSee('modal-body', false);
+        $response->assertSee('modal-footer', false);
+        $response->assertSee('Save Vehicle Record', false);
+        $response->assertSee('form-veh-registration', false);
+        $response->assertSee('form-veh-callsign', false);
     }
 }
 

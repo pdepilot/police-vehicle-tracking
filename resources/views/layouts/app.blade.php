@@ -205,6 +205,67 @@
         </div>
       </header>
 
+      <!-- ACTIVE EXECUTIVE COMMAND NAVBAR (Horizontal Module Navigation) -->
+      <nav class="command-navbar" id="commandNavbar" aria-label="Command Module Navigation">
+        <div class="command-navbar-scroll">
+          <a href="{{ route('dashboard') }}" class="command-nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}" {{ request()->routeIs('dashboard') ? 'aria-current="page"' : '' }}>
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Dashboard</span>
+          </a>
+
+          <a href="{{ route('tracking.index') }}" class="command-nav-item {{ request()->routeIs('tracking.*') ? 'active' : '' }}" {{ request()->routeIs('tracking.*') ? 'aria-current="page"' : '' }}>
+            <i class="bi bi-geo-alt-fill"></i>
+            <span>Live Radar</span>
+            <span class="command-nav-pulse" title="Live GPS Tracking Active"></span>
+          </a>
+
+          <a href="{{ route('trips.index') }}" class="command-nav-item {{ request()->routeIs('trips.index') ? 'active' : '' }}" {{ request()->routeIs('trips.index') ? 'aria-current="page"' : '' }}>
+            <i class="bi bi-send-fill"></i>
+            <span>Dispatches</span>
+          </a>
+
+          <a href="{{ route('trips.history') }}" class="command-nav-item {{ request()->routeIs('trips.history') ? 'active' : '' }}" {{ request()->routeIs('trips.history') ? 'aria-current="page"' : '' }}>
+            <i class="bi bi-clock-history"></i>
+            <span>Trip History</span>
+          </a>
+
+          <a href="{{ route('vehicles.index') }}" class="command-nav-item {{ request()->routeIs('vehicles.*') ? 'active' : '' }}" {{ request()->routeIs('vehicles.*') ? 'aria-current="page"' : '' }}>
+            <i class="bi bi-car-front-fill"></i>
+            <span>Vehicles</span>
+          </a>
+
+          <a href="{{ route('drivers.index') }}" class="command-nav-item {{ request()->routeIs('drivers.*') ? 'active' : '' }}" {{ request()->routeIs('drivers.*') ? 'aria-current="page"' : '' }}>
+            <i class="bi bi-person-badge-fill"></i>
+            <span>Officers &amp; Drivers</span>
+          </a>
+
+          <a href="{{ route('maintenance.index') }}" class="command-nav-item {{ request()->routeIs('maintenance.*') ? 'active' : '' }}" {{ request()->routeIs('maintenance.*') ? 'aria-current="page"' : '' }}>
+            <i class="bi bi-wrench-adjustable-circle-fill"></i>
+            <span>Maintenance</span>
+          </a>
+
+          <a href="{{ route('fuel.index') }}" class="command-nav-item {{ request()->routeIs('fuel.*') ? 'active' : '' }}" {{ request()->routeIs('fuel.*') ? 'aria-current="page"' : '' }}>
+            <i class="bi bi-fuel-pump-fill"></i>
+            <span>Fuel Logistics</span>
+          </a>
+
+          <a href="{{ route('notifications.index') }}" class="command-nav-item {{ request()->routeIs('notifications.*') ? 'active' : '' }}" {{ request()->routeIs('notifications.*') ? 'aria-current="page"' : '' }}>
+            <i class="bi bi-bell-fill"></i>
+            <span>Notifications</span>
+          </a>
+
+          <a href="{{ route('reports.index') }}" class="command-nav-item {{ request()->routeIs('reports.*') ? 'active' : '' }}" {{ request()->routeIs('reports.*') ? 'aria-current="page"' : '' }}>
+            <i class="bi bi-bar-chart-fill"></i>
+            <span>Reports</span>
+          </a>
+
+          <a href="{{ route('settings.index') }}" class="command-nav-item {{ request()->routeIs('settings.*') ? 'active' : '' }}" {{ request()->routeIs('settings.*') ? 'aria-current="page"' : '' }}>
+            <i class="bi bi-gear-fill"></i>
+            <span>Settings</span>
+          </a>
+        </div>
+      </nav>
+
       <!-- FLASH NOTIFICATIONS -->
       <div class="admin-content" style="padding-bottom: 0;">
         @if(session('success'))
