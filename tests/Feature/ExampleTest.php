@@ -72,4 +72,22 @@ class ExampleTest extends TestCase
         $authResponse->assertStatus(200);
         $authResponse->assertJsonStructure(['vehicles', 'drivers', 'trips']);
     }
+
+    public function test_login_route_is_rate_limited(): void
+    {
+        for ($i = 0; $i < 5; $i++) {
+            $this->post('/login', [
+                'email' => 'badlogin@police.gov.ng',
+                'password' => 'wrong-pass',
+            ]);
+        }
+
+        // 6th attempt exceeds 5 per minute
+        $response = $this->post('/login', [
+            'email' => 'badlogin@police.gov.ng',
+            'password' => 'wrong-pass',
+        ]);
+
+        $response->assertStatus(429);
+    }
 }

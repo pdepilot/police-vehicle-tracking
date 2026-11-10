@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Route;
 // Authentication routes
 Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 Route::get('/login', [AuthController::class, 'showLogin']);
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/login', [AuthController::class, 'login'])
+    ->middleware('throttle:login')
+    ->name('login.post');
 Route::get('/index.html', fn() => redirect()->route('login'));
 
 Route::middleware('auth')->group(function () {
