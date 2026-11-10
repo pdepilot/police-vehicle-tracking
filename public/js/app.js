@@ -183,18 +183,6 @@
     const userMenu = document.getElementById('user-dropdown-menu');
     if (!userBtn || !userMenu) return;
 
-    if (window.FleetStorage) {
-      const sess = window.FleetStorage.getAuthSession();
-      if (sess && sess.user) {
-        const nameEl = userBtn.querySelector('.user-name');
-        const roleEl = userBtn.querySelector('.user-role');
-        const avatarEl = userBtn.querySelector('.user-avatar');
-        if (nameEl && sess.user.name) nameEl.textContent = sess.user.name;
-        if (roleEl) roleEl.textContent = 'Nigeria Police Force';
-        if (avatarEl) avatarEl.textContent = 'NPF';
-      }
-    }
-
     userBtn.addEventListener('click', function (e) {
       e.stopPropagation();
       const isVisible = userMenu.classList.contains('show');

@@ -1713,30 +1713,10 @@
       });
     },
 
-    // Auth Session Simulation & Logout
-    getAuthSession: function () {
-      try {
-        const sess = localStorage.getItem(STORAGE_KEYS.AUTH);
-        if (sess) return JSON.parse(sess);
-      } catch (e) {}
-      const defaultAuth = {
-        isLoggedIn: true,
-        user: {
-          name: 'CP Imo State Command',
-          badge: 'NPF-IMO-001',
-          role: 'Commissioner of Police / Fleet Command',
-          email: 'imo.commander@police.gov.ng'
-        }
-      };
-      localStorage.setItem(STORAGE_KEYS.AUTH, JSON.stringify(defaultAuth));
-      return defaultAuth;
-    },
-    setAuthSession: function (session) {
-      localStorage.setItem(STORAGE_KEYS.AUTH, JSON.stringify(session));
-    },
+    // Server-side Authentication
     logout: function () {
-      localStorage.removeItem(STORAGE_KEYS.AUTH);
       const logoutForm = document.getElementById('logout-form');
+
       if (logoutForm) {
         logoutForm.submit();
       } else {
