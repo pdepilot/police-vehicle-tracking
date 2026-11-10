@@ -59,4 +59,17 @@ class ExampleTest extends TestCase
         $response->assertSessionHasErrors('email');
         $this->assertGuest();
     }
+
+    public function test_fleet_api_requires_authentication(): void
+    {
+        // Unauthenticated request
+        $response = $this->getJson('/api/fleet/all');
+        $response->assertStatus(401);
+
+        // Authenticated request
+        $user = User::factory()->create();
+        $authResponse = $this->actingAs($user)->getJson('/api/fleet/all');
+        $authResponse->assertStatus(200);
+        $authResponse->assertJsonStructure(['vehicles', 'drivers', 'trips']);
+    }
 }

@@ -3,7 +3,7 @@
 use App\Http\Controllers\FleetApiController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('fleet')->group(function () {
+Route::middleware(['web', 'auth'])->prefix('fleet')->group(function () {
     Route::get('/all', [FleetApiController::class, 'all']);
 
     // Vehicles
