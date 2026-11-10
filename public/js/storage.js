@@ -1349,15 +1349,6 @@
       });
       return vehicle;
     },
-      list.unshift(vehicle);
-      this.saveVehicles(list);
-      this.addNotification({
-        title: 'New Vehicle Commissioned',
-        message: `Vehicle ${vehicle.registration} (${vehicle.make} ${vehicle.model}) was registered into ${vehicle.department}.`,
-        type: 'assignment'
-      });
-      return vehicle;
-    },
     updateVehicle: function (id, updatedFields) {
       const list = this.getVehicles();
       const index = list.findIndex(v => v.id === id);
