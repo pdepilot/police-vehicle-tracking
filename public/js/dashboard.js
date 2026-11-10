@@ -208,23 +208,27 @@
     }
 
     const vehicles = window.FleetStorage ? window.FleetStorage.getVehicles() : [];
-    let initialLat = 5.4851, initialLng = 7.0355;
+    let initialLat = 37.778, initialLng = -122.418;
     if (vehicles.length && vehicles[0].lat) {
       initialLat = vehicles[0].lat;
       initialLng = vehicles[0].lng;
     }
 
-    // Centered on Imo State Command area
+    // Centered on Metro City / Radar Tracking Area
     dashboardMapInstance = window.L.map('dashboard-mini-map', {
       zoomControl: true,
       scrollWheelZoom: false
-    }).setView([initialLat, initialLng], 12);
+    }).setView([37.778, -122.418], 12);
 
     // OpenStreetMap tiles
     window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | <strong>NPF LIVE RADAR</strong>',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | <strong>DEMO DATA</strong>',
       maxZoom: 18
     }).addTo(dashboardMapInstance);
+
+    setTimeout(() => {
+      if (dashboardMapInstance) dashboardMapInstance.invalidateSize();
+    }, 200);
 
     renderDashboardMapMarkers();
   }
@@ -242,27 +246,25 @@
       if (!veh.lat || !veh.lng) return;
 
       const isOnTrip = veh.status === 'On Trip';
-      const isSiren = veh.sirenActive;
+      const isSiren = Boolean(veh.sirenActive);
 
-      // 3D Isometric Vehicular Representation
-      let customIcon = null;
-      if (window.FleetApp && typeof window.FleetApp.get3DVehicleDivIcon === 'function') {
-        customIcon = window.FleetApp.get3DVehicleDivIcon(veh, false);
-      } else {
-        let iconHtml = '<i class="bi bi-car-front-fill"></i>';
-        if (veh.type === 'SUV') iconHtml = '<i class="bi bi-truck-front-fill"></i>';
-        else if (veh.type === 'Motorcycle') iconHtml = '<i class="bi bi-bicycle"></i>';
-        else if (veh.type === 'Truck') iconHtml = '<i class="bi bi-truck"></i>';
-        else if (veh.type === 'Armored Tactical') iconHtml = '<i class="bi bi-shield-shaded"></i>';
+      let iconHtml = '<i class="fa-solid fa-car-side"></i>';
+      if (veh.type === 'SUV') iconHtml = '<i class="fa-solid fa-truck-monster"></i>';
+      else if (veh.type === 'Motorcycle') iconHtml = '<i class="fa-solid fa-motorcycle"></i>';
+      else if (veh.type === 'Truck') iconHtml = '<i class="fa-solid fa-truck-pickup"></i>';
+      else if (veh.type === 'Armored Tactical') iconHtml = '<i class="fa-solid fa-shield-halved"></i>';
 
-        customIcon = window.L.divIcon({
-          className: 'custom-leaflet-marker',
-          html: `<div class="vehicle-map-marker ${isOnTrip ? 'on-trip' : ''} ${isSiren ? 'siren-on' : ''}">${iconHtml}</div>`,
-          iconSize: [36, 36],
-          iconAnchor: [18, 18],
-          popupAnchor: [0, -20]
-        });
-      }
+      const customIcon = window.L.divIcon({
+        className: 'custom-leaflet-marker',
+        html: `
+          <div class="vehicle-map-marker ${isOnTrip ? 'on-trip' : ''} ${isSiren ? 'siren-on' : ''}" title="${veh.registration} - ${veh.callSign}">
+            ${iconHtml}
+          </div>
+        `,
+        iconSize: [36, 36],
+        iconAnchor: [18, 18],
+        popupAnchor: [0, -20]
+      });
 
       const popupContent = `
         <div class="custom-leaflet-popup">

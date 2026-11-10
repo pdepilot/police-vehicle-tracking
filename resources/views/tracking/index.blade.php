@@ -85,7 +85,7 @@
         <div style="font-size: 0.78rem; display: flex; flex-direction: column; gap: 4px;">
           <div><strong>Assigned Officer:</strong> <span id="drawer-veh-driver">Sgt. Marcus Cole</span></div>
           <div><strong>Current Sector / Location:</strong> <span id="drawer-veh-location">Expressway Sector 4</span></div>
-          <div><strong>GPS Coordinates:</strong> <span id="drawer-veh-coords" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">5.4851, 7.0355</span></div>
+          <div><strong>GPS Coordinates:</strong> <span id="drawer-veh-coords" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">37.7749, -122.4194</span></div>
           <div><strong>Total Distance:</strong> <span id="drawer-veh-mileage">24,120 km</span></div>
         </div>
 

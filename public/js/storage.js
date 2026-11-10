@@ -38,14 +38,14 @@
       fuelLevel: 85,
       fuelCapacity: 75,
       batteryLevel: 98,
-      lat: 5.4851,
-      lng: 7.0355,
+      lat: 37.7749,
+      lng: -122.4194,
       speed: 0,
       heading: 'NE',
       sirenActive: false,
       lastServiceDate: '2026-09-12',
       nextServiceDate: '2027-01-15',
-      lastLocation: 'Command Headquarters, Owerri',
+      lastLocation: 'Metro Central Precinct, Bay 4',
       notes: 'Equipped with front push bumper and dual spotlight package.'
     },
     {
@@ -65,14 +65,14 @@
       fuelLevel: 65,
       fuelCapacity: 70,
       batteryLevel: 94,
-      lat: 5.5020,
-      lng: 7.0280,
-      speed: 68,
+      lat: 37.7840,
+      lng: -122.4080,
+      speed: 48,
       heading: 'NW',
       sirenActive: true,
       lastServiceDate: '2026-10-01',
       nextServiceDate: '2027-02-01',
-      lastLocation: 'Owerri-Onitsha Expressway, Corridor 4',
+      lastLocation: 'Expressway Route 101 N, Milepost 4',
       notes: 'High-speed intercept radar and dual in-car automated license plate reader.'
     },
     {
@@ -92,14 +92,14 @@
       fuelLevel: 92,
       fuelCapacity: 140,
       batteryLevel: 100,
-      lat: 5.4780,
-      lng: 7.0420,
+      lat: 37.7650,
+      lng: -122.4310,
       speed: 0,
       heading: 'S',
       sirenActive: false,
       lastServiceDate: '2026-08-20',
       nextServiceDate: '2026-12-10',
-      lastLocation: 'Tactical Operations Staging Depot, Owerri',
+      lastLocation: 'Tactical Operations Staging Depot',
       notes: 'Mil-spec B7 ballistic steel armor and roof hatch surveillance turret.'
     },
     {
@@ -119,14 +119,14 @@
       fuelLevel: 45,
       fuelCapacity: 98,
       batteryLevel: 91,
-      lat: 5.4920,
-      lng: 7.0380,
-      speed: 32,
+      lat: 37.7915,
+      lng: -122.4050,
+      speed: 24,
       heading: 'E',
       sirenActive: false,
       lastServiceDate: '2026-09-05',
       nextServiceDate: '2026-12-28',
-      lastLocation: 'Wetheral Road Commercial Axis, Owerri',
+      lastLocation: 'Financial District, Sector 2',
       notes: 'Custom canine kennel with remote climate-control fail-safe system.'
     },
     {
@@ -146,14 +146,14 @@
       fuelLevel: 78,
       fuelCapacity: 100,
       batteryLevel: 96,
-      lat: 5.5100,
-      lng: 7.0150,
+      lat: 37.8050,
+      lng: -122.4220,
       speed: 0,
       heading: 'N',
       sirenActive: false,
       lastServiceDate: '2026-09-18',
       nextServiceDate: '2027-01-20',
-      lastLocation: 'Oguta Lake Marine Operations Dock',
+      lastLocation: 'Pier 39 Marine Operations Dock',
       notes: 'Equipped with heavy-duty boat trailer hitch and emergency winch.'
     },
     {
@@ -173,14 +173,14 @@
       fuelLevel: 82,
       fuelCapacity: 25,
       batteryLevel: 99,
-      lat: 5.4810,
-      lng: 7.0310,
+      lat: 37.7700,
+      lng: -122.4100,
       speed: 0,
       heading: 'W',
       sirenActive: false,
       lastServiceDate: '2026-10-15',
       nextServiceDate: '2027-02-15',
-      lastLocation: 'Control Post Roundabout, Owerri',
+      lastLocation: 'Traffic Enforcement Substation South',
       notes: 'Equipped with handheld lidar gun and blue strobe fairing lights.'
     },
     {
@@ -200,14 +200,14 @@
       fuelLevel: 58,
       fuelCapacity: 53,
       batteryLevel: 88,
-      lat: 5.4950,
-      lng: 7.0250,
+      lat: 37.7800,
+      lng: -122.4400,
       speed: 0,
       heading: 'SW',
       sirenActive: false,
       lastServiceDate: '2026-08-30',
       nextServiceDate: '2026-12-15',
-      lastLocation: 'Government House Security Perimeter, Owerri',
+      lastLocation: 'District Attorney Court Complex',
       notes: 'Covert visor lights and covert digital secure radio system.'
     },
     {
@@ -227,14 +227,14 @@
       fuelLevel: 32,
       fuelCapacity: 93,
       batteryLevel: 85,
-      lat: 5.4720,
-      lng: 7.0390,
+      lat: 37.7550,
+      lng: -122.4180,
       speed: 0,
       heading: 'N',
       sirenActive: false,
       lastServiceDate: '2026-11-02',
       nextServiceDate: '2026-11-08',
-      lastLocation: 'Aba Road Intersection Outpost, Owerri',
+      lastLocation: 'Metro Fleet Repair Depot, Bay 2',
       notes: 'Brake pads, rotor replacement and steering calibration in progress.'
     },
     {
@@ -254,14 +254,14 @@
       fuelLevel: 72,
       fuelCapacity: 70,
       batteryLevel: 93,
-      lat: 5.4890,
-      lng: 7.0460,
+      lat: 37.7620,
+      lng: -122.3950,
       speed: 0,
       heading: 'E',
       sirenActive: false,
       lastServiceDate: '2026-09-22',
       nextServiceDate: '2027-01-20',
-      lastLocation: 'Okigwe Road Bypass Checkpoint, Owerri',
+      lastLocation: 'Highway Patrol Outpost East',
       notes: 'Pit bumper reinforcement verified.'
     },
     {
@@ -281,14 +281,14 @@
       fuelLevel: 50,
       fuelCapacity: 95,
       batteryLevel: 89,
-      lat: 5.4830,
-      lng: 7.0210,
+      lat: 37.7880,
+      lng: -122.4280,
       speed: 31,
       heading: 'S',
       sirenActive: false,
       lastServiceDate: '2026-08-14',
       nextServiceDate: '2026-12-01',
-      lastLocation: 'State High Court Security Escort Bay, Owerri',
+      lastLocation: 'County Jail Facility Access Road',
       notes: 'Dual partition 8-cell secured lockup module.'
     },
     {
@@ -308,14 +308,14 @@
       fuelLevel: 94,
       fuelCapacity: 75,
       batteryLevel: 99,
-      lat: 5.4760,
-      lng: 7.0340,
+      lat: 37.7720,
+      lng: -122.4350,
       speed: 0,
       heading: 'W',
       sirenActive: false,
       lastServiceDate: '2026-10-10',
       nextServiceDate: '2027-02-15',
-      lastLocation: 'Central Police Station Logistics Depot, Owerri',
+      lastLocation: 'Western District Station',
       notes: 'New generation all-wheel drive tactical response vehicle.'
     },
     {
@@ -335,14 +335,14 @@
       fuelLevel: 85,
       fuelCapacity: 300,
       batteryLevel: 97,
-      lat: 5.4851,
-      lng: 7.0355,
+      lat: 37.7749,
+      lng: -122.4194,
       speed: 0,
       heading: 'N',
       sirenActive: false,
       lastServiceDate: '2026-07-15',
       nextServiceDate: '2026-12-30',
-      lastLocation: 'Command Mobile Operations Trailer, Owerri',
+      lastLocation: 'Headquarters Secure Compound',
       notes: 'Integrated satellite uplink, 6 dispatch operator stations.'
     }
   ];
@@ -1021,8 +1021,8 @@
       fuelLevel: Number(v.fuel_level !== undefined ? v.fuel_level : v.fuelLevel || 100),
       fuelCapacity: Number(v.fuel_capacity || v.fuelCapacity || 75),
       batteryLevel: Number(v.battery_level !== undefined ? v.battery_level : v.batteryLevel || 100),
-      lat: Number(v.lat || 5.4851),
-      lng: Number(v.lng || 7.0355),
+      lat: Number(v.lat || 37.7749),
+      lng: Number(v.lng || -122.4194),
       speed: Number(v.speed || 0),
       heading: v.heading || 'N',
       sirenActive: Boolean(v.siren_active !== undefined ? v.siren_active : v.sirenActive),
@@ -1308,26 +1308,19 @@
     // Vehicle Methods
     getVehicles: function () {
       let vehicles = loadFromStorage(STORAGE_KEYS.VEHICLES, INITIAL_VEHICLES);
-      // Auto-migrate any legacy California coordinates (> 20 lat or < 0 lng) to Imo State Command, Nigeria
-      let modified = false;
-      const imoCenterLat = 5.4851;
-      const imoCenterLng = 7.0355;
-      if (Array.isArray(vehicles)) {
-        vehicles = vehicles.map(function(v, idx) {
-          if (!v.lat || !v.lng || v.lat > 20 || v.lng < 0) {
-            modified = true;
-            const offsetLat = ((idx % 4) - 1.5) * 0.012 + (Math.sin(idx) * 0.005);
-            const offsetLng = (Math.floor(idx / 4) - 1.5) * 0.015 + (Math.cos(idx) * 0.005);
-            return Object.assign({}, v, {
-              lat: parseFloat((imoCenterLat + offsetLat).toFixed(6)),
-              lng: parseFloat((imoCenterLng + offsetLng).toFixed(6))
-            });
-          }
-          return v;
-        });
-        if (modified) {
-          saveToStorage(STORAGE_KEYS.VEHICLES, vehicles);
+      let needsReset = false;
+      if (Array.isArray(vehicles) && vehicles.length) {
+        // If stored vehicles are outside the SF tracking radar area, restore initial radar coordinates
+        if (vehicles.some(v => !v.lat || !v.lng || v.lat < 30 || v.lng > -100)) {
+          needsReset = true;
         }
+      } else {
+        needsReset = true;
+      }
+
+      if (needsReset) {
+        vehicles = JSON.parse(JSON.stringify(INITIAL_VEHICLES));
+        saveToStorage(STORAGE_KEYS.VEHICLES, vehicles);
       }
       return vehicles;
     },

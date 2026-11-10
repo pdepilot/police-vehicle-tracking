@@ -70,8 +70,8 @@ class VehicleController extends Controller
             }
         }
 
-        $data['lat'] = 5.4851;
-        $data['lng'] = 7.0355;
+        $data['lat'] = 37.7749;
+        $data['lng'] = -122.4194;
         $data['status'] = $data['status'] ?? 'Available';
 
         Vehicle::create($data);

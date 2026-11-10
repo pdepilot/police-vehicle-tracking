@@ -34,24 +34,21 @@
     const mapContainer = document.getElementById('tracking-full-map');
     if (!mapContainer || !window.L) return;
 
-    const vehicles = window.FleetStorage ? window.FleetStorage.getVehicles() : [];
-    let initialLat = 5.4851, initialLng = 7.0355;
-    if (vehicles.length && vehicles[0].lat) {
-      initialLat = vehicles[0].lat;
-      initialLng = vehicles[0].lng;
-    }
-
     trackingMap = window.L.map('tracking-full-map', {
       zoomControl: true,
       minZoom: 10,
       maxZoom: 18
-    }).setView([initialLat, initialLng], 13);
+    }).setView([37.778, -122.418], 13);
 
-    // OpenStreetMap CartoDB Positron / OSM Layer
+    // OpenStreetMap Layer
     window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | <span style="color: #b45309; font-weight: 700;">DEMO SIMULATED TELEMETRY</span>',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | <span style="color: #b45309; font-weight: 700;">DEMO DATA</span>',
       maxZoom: 19
     }).addTo(trackingMap);
+
+    setTimeout(() => {
+      if (trackingMap) trackingMap.invalidateSize();
+    }, 200);
 
     updateMapMarkers();
   }
@@ -66,32 +63,26 @@
       if (!veh.lat || !veh.lng) return;
 
       const isOnTrip = veh.status === 'On Trip';
-      const isSiren = veh.sirenActive;
+      const isSiren = Boolean(veh.sirenActive);
       const isSelected = selectedVehicleId === veh.id;
 
-      // 3D Isometric Vehicular Representation
-      let customIcon = null;
-      if (window.FleetApp && typeof window.FleetApp.get3DVehicleDivIcon === 'function') {
-        customIcon = window.FleetApp.get3DVehicleDivIcon(veh, isSelected);
-      } else {
-        let iconHtml = '<i class="fa-solid fa-car-side"></i>';
-        if (veh.type === 'SUV') iconHtml = '<i class="fa-solid fa-truck-monster"></i>';
-        else if (veh.type === 'Motorcycle') iconHtml = '<i class="fa-solid fa-motorcycle"></i>';
-        else if (veh.type === 'Truck') iconHtml = '<i class="fa-solid fa-truck-pickup"></i>';
-        else if (veh.type === 'Armored Tactical') iconHtml = '<i class="fa-solid fa-shield-halved"></i>';
+      let iconHtml = '<i class="fa-solid fa-car-side"></i>';
+      if (veh.type === 'SUV') iconHtml = '<i class="fa-solid fa-truck-monster"></i>';
+      else if (veh.type === 'Motorcycle') iconHtml = '<i class="fa-solid fa-motorcycle"></i>';
+      else if (veh.type === 'Truck') iconHtml = '<i class="fa-solid fa-truck-pickup"></i>';
+      else if (veh.type === 'Armored Tactical') iconHtml = '<i class="fa-solid fa-shield-halved"></i>';
 
-        customIcon = window.L.divIcon({
-          className: 'custom-tracking-marker',
-          html: `
-            <div class="vehicle-map-marker ${isOnTrip ? 'on-trip' : ''} ${isSiren ? 'siren-on' : ''} ${isSelected ? 'selected' : ''}" style="${isSelected ? 'transform: scale(1.25); border-color: #f59e0b; box-shadow: 0 0 15px #f59e0b;' : ''}">
-              ${iconHtml}
-            </div>
-          `,
-          iconSize: [38, 38],
-          iconAnchor: [19, 19],
-          popupAnchor: [0, -22]
-        });
-      }
+      const customIcon = window.L.divIcon({
+        className: 'custom-tracking-marker',
+        html: `
+          <div class="vehicle-map-marker ${isOnTrip ? 'on-trip' : ''} ${isSiren ? 'siren-on' : ''} ${isSelected ? 'selected' : ''}" style="${isSelected ? 'transform: scale(1.25); border-color: #f59e0b; box-shadow: 0 0 15px #f59e0b;' : ''}">
+            ${iconHtml}
+          </div>
+        `,
+        iconSize: [38, 38],
+        iconAnchor: [19, 19],
+        popupAnchor: [0, -22]
+      });
 
       if (vehicleMarkers[veh.id]) {
         // Smoothly animate marker to new coordinates

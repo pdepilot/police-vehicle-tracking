@@ -44,9 +44,9 @@ class FleetApiController extends Controller
             $data['id'] = 'VEH-' . $lastNum;
         }
 
-        // Default coordinates if missing
-        $data['lat'] = $data['lat'] ?? 5.4851;
-        $data['lng'] = $data['lng'] ?? 7.0355;
+        // Default coordinates if missing (Metro Central Precinct)
+        $data['lat'] = $data['lat'] ?? 37.7749;
+        $data['lng'] = $data['lng'] ?? -122.4194;
         $data['status'] = $data['status'] ?? 'Available';
 
         $vehicle = Vehicle::create($data);
