@@ -48,7 +48,9 @@ Route::middleware(['web', 'auth'])->prefix('fleet')->group(function () {
     // Settings
     Route::get('/settings', [FleetApiController::class, 'getSettings']);
     Route::post('/settings', [FleetApiController::class, 'saveSettings']);
-    Route::post('/reset', [FleetApiController::class, 'resetDatabase']);
-    Route::get('/backup', [FleetApiController::class, 'backupDatabase']);
+
+    // Disabled for security
+    // Route::post('/reset', [FleetApiController::class, 'resetDatabase']);
+    // Route::get('/backup', [FleetApiController::class, 'backupDatabase']);
 });
 
