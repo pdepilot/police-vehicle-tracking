@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -9,8 +10,16 @@ class FleetRoutesTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_unauthenticated_user_redirected_to_login_from_fleet_pages(): void
+    {
+        $response = $this->get('/vehicles');
+        $response->assertRedirect(route('login'));
+    }
+
     public function test_all_fleet_views_render_with_layout(): void
     {
+        $user = User::factory()->create();
+
         $routes = [
             '/vehicles',
             '/drivers',
@@ -25,7 +34,7 @@ class FleetRoutesTest extends TestCase
         ];
 
         foreach ($routes as $route) {
-            $response = $this->get($route);
+            $response = $this->actingAs($user)->get($route);
             $response->assertStatus(200);
             $response->assertSee('dash-shell', false);
             $response->assertSee('float-nav', false);
@@ -37,7 +46,8 @@ class FleetRoutesTest extends TestCase
 
     public function test_vehicles_view_renders_commission_modal_correctly(): void
     {
-        $response = $this->get('/vehicles');
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get('/vehicles');
         $response->assertStatus(200);
         $response->assertSee('id="vehicle-crud-modal"', false);
         $response->assertSee('modal-box lg', false);
@@ -51,7 +61,8 @@ class FleetRoutesTest extends TestCase
 
     public function test_maintenance_view_has_no_hardcoded_values(): void
     {
-        $response = $this->get('/maintenance');
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get('/maintenance');
         $response->assertStatus(200);
         $response->assertDontSee('value="450"', false);
         $response->assertDontSee('Master Tech J. Kowalski', false);
