@@ -20,43 +20,26 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required',
-            'password' => 'required',
+            'email' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'string'],
         ]);
 
-        $user = User::where('email', $credentials['email'])
-            ->orWhere('badge_number', $credentials['email'])
-            ->first();
+        $user = User::where(function ($query) use ($credentials) {
+            $query->where('email', $credentials['email'])
+                  ->orWhere('badge_number', $credentials['email']);
+        })->first();
 
-        if ($user && Hash::check($credentials['password'], $user->password)) {
-            Auth::login($user, $request->boolean('remember'));
-            $request->session()->regenerate();
-            return redirect()->intended(route('dashboard'));
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
+            return back()->withErrors([
+                'email' => 'Invalid Service ID, Command Email, or Passcode.',
+            ])->withInput($request->only('email'));
         }
 
-        // Demo fallback check
-        if (
-            ($credentials['email'] === 'imo.commander@police.gov.ng' || $credentials['email'] === 'NPF-IMO-001')
-            && $credentials['password'] === 'IMO-POLICE-911'
-        ) {
-            $user = User::firstOrCreate(
-                ['email' => 'imo.commander@police.gov.ng'],
-                [
-                    'name' => 'CP Imo State Command',
-                    'password' => Hash::make('IMO-POLICE-911'),
-                    'badge_number' => 'NPF-IMO-001',
-                    'role' => 'Commissioner of Police / Fleet Command',
-                    'department' => 'Nigeria Police Force — Imo State Command',
-                ]
-            );
-            Auth::login($user, true);
-            $request->session()->regenerate();
-            return redirect()->intended(route('dashboard'));
-        }
+        Auth::login($user, $request->boolean('remember'));
 
-        return back()->withErrors([
-            'email' => 'Invalid Service ID, Command Email, or Passcode.',
-        ])->withInput($request->only('email'));
+        $request->session()->regenerate();
+
+        return redirect()->intended(route('dashboard'));
     }
 
     public function logout(Request $request)
