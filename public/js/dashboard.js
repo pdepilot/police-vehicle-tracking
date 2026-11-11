@@ -208,17 +208,25 @@
     }
 
     const vehicles = window.FleetStorage ? window.FleetStorage.getVehicles() : [];
-    let initialLat = 37.778, initialLng = -122.418;
-    if (vehicles.length && vehicles[0].lat) {
-      initialLat = vehicles[0].lat;
-      initialLng = vehicles[0].lng;
-    }
 
-    // Centered on Metro City / Radar Tracking Area
+    const firstLocatedVehicle = vehicles.find(veh =>
+      Number.isFinite(veh.lat) &&
+      Number.isFinite(veh.lng) &&
+      veh.lat >= -90 &&
+      veh.lat <= 90 &&
+      veh.lng >= -180 &&
+      veh.lng <= 180
+    );
+
+    const initialLat = firstLocatedVehicle ? firstLocatedVehicle.lat : 5.48;
+    const initialLng = firstLocatedVehicle ? firstLocatedVehicle.lng : 7.03;
+
+    // Default map centre: Owerri, Imo State.
+    // This is a map display centre, not a vehicle GPS position.
     dashboardMapInstance = window.L.map('dashboard-mini-map', {
       zoomControl: true,
       scrollWheelZoom: false
-    }).setView([37.778, -122.418], 12);
+    }).setView([initialLat, initialLng], 12);
 
     // OpenStreetMap tiles
     window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -243,7 +251,14 @@
     const vehicles = window.FleetStorage.getVehicles();
 
     vehicles.forEach(veh => {
-      if (!veh.lat || !veh.lng) return;
+      if (
+        !Number.isFinite(veh.lat) ||
+        !Number.isFinite(veh.lng) ||
+        veh.lat < -90 ||
+        veh.lat > 90 ||
+        veh.lng < -180 ||
+        veh.lng > 180
+      ) return;
 
       const isOnTrip = veh.status === 'On Trip';
       const isSiren = Boolean(veh.sirenActive);
