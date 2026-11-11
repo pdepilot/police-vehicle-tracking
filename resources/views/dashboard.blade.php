@@ -34,7 +34,7 @@
   <div class="info-note">
     <i class="bi bi-shield-check"></i>
     <div>
-      <strong>Live Police Fleet Command Connected.</strong> All patrol units, active dispatch routes, telemetry logs, workshop maintenance tickets, and fuel reserves shown below are synchronized in real time with the <code>police-car-tracker</code> MySQL database.
+      <strong>Fleet Management Database Connected.</strong> Vehicle, dispatch, maintenance, and fuel records are managed through the <code>police-car-tracker</code> MySQL database. Live GPS telemetry is not yet connected.
     </div>
   </div>
 
@@ -103,7 +103,7 @@
       <span class="stat-value" id="stat-ontrip-vehicles">{{ $activeTrips }}</span>
       <span class="stat-label">Active Patrol Units</span>
       <div class="stat-foot">
-        <i class="bi bi-geo-alt-fill"></i> Live GPS Feed
+        <i class="bi bi-geo-alt-fill"></i> GPS Not Connected
       </div>
     </div>
 
@@ -194,11 +194,11 @@
   <div class="card-box mb-3">
     <div class="card-box-head">
       <div>
-        <h2><i class="bi bi-radar"></i> Live Fleet Telemetry Radar Map</h2>
+        <h2><i class="bi bi-radar"></i> Fleet Location Map</h2>
         <span class="head-sub">Active tactical patrol units across Imo State Police Command &bull; Click any unit icon for specs</span>
       </div>
       <div class="d-flex align-items-center gap-2">
-        <span class="live-pill" style="margin:0;"><span class="live-dot"></span> Radar Stream Online</span>
+        <span class="live-pill" style="margin:0;"><span class="live-dot"></span> Awaiting GPS Connection</span>
         <a href="{{ route('tracking.index') }}" class="btn-link-soft">
           Open Full Radar <i class="bi bi-arrow-right"></i>
         </a>

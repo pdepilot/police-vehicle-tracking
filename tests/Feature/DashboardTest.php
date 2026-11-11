@@ -26,7 +26,7 @@ class DashboardTest extends TestCase
         // Core title & live indicators
         $response->assertSee('Operations Dashboard');
         $response->assertSee('Live Telemetry Feed');
-        $response->assertSee('Live Police Fleet Command Connected');
+        $response->assertSee('Fleet Management Database Connected');
 
         // TravelBooking Layout & Shell components
         $response->assertSee('dash-shell', false);
@@ -53,7 +53,7 @@ class DashboardTest extends TestCase
         $response->assertSee('card-box-body', false);
         $response->assertSee('Vehicle Telemetrics Activity');
         $response->assertSee('Fleet Readiness Distribution');
-        $response->assertSee('Live Fleet Telemetry Radar Map');
+        $response->assertSee('Fleet Location Map');
         $response->assertSee('Recent Dispatches');
         $response->assertSee('Priority Alerts');
 
