@@ -1261,30 +1261,62 @@
     },
 
     syncFromBackend: function () {
-      fetch('/api/fleet/all')
-        .then(function(res) { return res.json(); })
-        .then(function(data) {
-          if (data && data.vehicles && data.vehicles.length) {
-            var vehicles = data.vehicles.map(normalizeVehicle);
-            var drivers = (data.drivers || []).map(normalizeDriver);
-            var trips = (data.trips || []).map(normalizeTrip);
-            var maintenance = (data.maintenance || []).map(normalizeMaintenance);
-            var fuel = (data.fuel || []).map(normalizeFuel);
-            var notifications = (data.notifications || []).map(normalizeNotification);
-            var settings = normalizeSettings(data.settings);
-
-            localStorage.setItem(STORAGE_KEYS.VEHICLES, JSON.stringify(vehicles));
-            localStorage.setItem(STORAGE_KEYS.DRIVERS, JSON.stringify(drivers));
-            localStorage.setItem(STORAGE_KEYS.TRIPS, JSON.stringify(trips));
-            localStorage.setItem(STORAGE_KEYS.MAINTENANCE, JSON.stringify(maintenance));
-            localStorage.setItem(STORAGE_KEYS.FUEL, JSON.stringify(fuel));
-            localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(notifications));
-            localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
-
-            window.dispatchEvent(new CustomEvent('fleet_data_updated', { detail: { sync: true } }));
+      fetch('/api/fleet/all', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        },
+        credentials: 'same-origin'
+      })
+        .then(function (res) {
+          if (!res.ok) {
+            throw new Error('Fleet sync failed with HTTP ' + res.status);
           }
+
+          return res.json();
         })
-        .catch(function(err) {
+        .then(function (data) {
+          var collections = [
+            'vehicles',
+            'drivers',
+            'trips',
+            'maintenance',
+            'fuel',
+            'notifications'
+          ];
+
+          if (
+            !data ||
+            !collections.every(function (key) {
+              return Array.isArray(data[key]);
+            })
+          ) {
+            throw new Error('Invalid fleet synchronization response.');
+          }
+
+          var vehicles = data.vehicles.map(normalizeVehicle);
+          var drivers = data.drivers.map(normalizeDriver);
+          var trips = data.trips.map(normalizeTrip);
+          var maintenance = data.maintenance.map(normalizeMaintenance);
+          var fuel = data.fuel.map(normalizeFuel);
+          var notifications = data.notifications.map(normalizeNotification);
+          var settings = normalizeSettings(data.settings);
+
+          localStorage.setItem(STORAGE_KEYS.VEHICLES, JSON.stringify(vehicles));
+          localStorage.setItem(STORAGE_KEYS.DRIVERS, JSON.stringify(drivers));
+          localStorage.setItem(STORAGE_KEYS.TRIPS, JSON.stringify(trips));
+          localStorage.setItem(STORAGE_KEYS.MAINTENANCE, JSON.stringify(maintenance));
+          localStorage.setItem(STORAGE_KEYS.FUEL, JSON.stringify(fuel));
+          localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(notifications));
+          localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
+
+          window.dispatchEvent(
+            new CustomEvent('fleet_data_updated', {
+              detail: { sync: true }
+            })
+          );
+        })
+        .catch(function (err) {
           console.warn('Backend sync deferred:', err);
         });
     },
