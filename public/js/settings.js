@@ -63,6 +63,8 @@
         const theme = getVal('settings-theme-select');
         const updated = {
           ...current,
+          department: getVal('settings-department') || current.department,
+          terminalId: getVal('settings-terminal-id') || current.terminalId,
           theme: theme,
           speedUnit: getVal('settings-speed-unit'),
           telemetryRefreshRate: Number(getVal('settings-refresh-rate')) || 5,
@@ -74,7 +76,7 @@
         // Apply theme immediately
         document.documentElement.setAttribute('data-theme', theme);
 
-        window.FleetApp.showToast('Preferences Saved', 'System preferences have been saved.', 'success');
+        window.FleetApp.showToast('Preferences Saved', 'System and department preferences have been saved.', 'success');
       });
     }
 
