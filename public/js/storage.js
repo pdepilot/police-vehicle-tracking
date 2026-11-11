@@ -1021,8 +1021,12 @@
       fuelLevel: Number(v.fuel_level !== undefined ? v.fuel_level : v.fuelLevel || 100),
       fuelCapacity: Number(v.fuel_capacity || v.fuelCapacity || 75),
       batteryLevel: Number(v.battery_level !== undefined ? v.battery_level : v.batteryLevel || 100),
-      lat: Number(v.lat || 37.7749),
-      lng: Number(v.lng || -122.4194),
+      lat: v.lat !== null && v.lat !== undefined && v.lat !== '' && Number.isFinite(Number(v.lat))
+        ? Number(v.lat)
+        : null,
+      lng: v.lng !== null && v.lng !== undefined && v.lng !== '' && Number.isFinite(Number(v.lng))
+        ? Number(v.lng)
+        : null,
       speed: Number(v.speed || 0),
       heading: v.heading || 'N',
       sirenActive: Boolean(v.siren_active !== undefined ? v.siren_active : v.sirenActive),
