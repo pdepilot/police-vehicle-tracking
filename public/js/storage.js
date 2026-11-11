@@ -1249,12 +1249,12 @@
 
     // Initialize all stores and sync from MySQL
     init: function () {
-      loadFromStorage(STORAGE_KEYS.VEHICLES, INITIAL_VEHICLES);
-      loadFromStorage(STORAGE_KEYS.DRIVERS, INITIAL_DRIVERS);
-      loadFromStorage(STORAGE_KEYS.TRIPS, INITIAL_TRIPS);
-      loadFromStorage(STORAGE_KEYS.MAINTENANCE, INITIAL_MAINTENANCE);
-      loadFromStorage(STORAGE_KEYS.FUEL, INITIAL_FUEL);
-      loadFromStorage(STORAGE_KEYS.NOTIFICATIONS, INITIAL_NOTIFICATIONS);
+      loadFromStorage(STORAGE_KEYS.VEHICLES, []);
+      loadFromStorage(STORAGE_KEYS.DRIVERS, []);
+      loadFromStorage(STORAGE_KEYS.TRIPS, []);
+      loadFromStorage(STORAGE_KEYS.MAINTENANCE, []);
+      loadFromStorage(STORAGE_KEYS.FUEL, []);
+      loadFromStorage(STORAGE_KEYS.NOTIFICATIONS, []);
       loadFromStorage(STORAGE_KEYS.SETTINGS, INITIAL_SETTINGS);
 
       this.syncFromBackend();
@@ -1353,7 +1353,7 @@
 
     // Driver Methods
     getDrivers: function () {
-      return loadFromStorage(STORAGE_KEYS.DRIVERS, INITIAL_DRIVERS);
+      return loadFromStorage(STORAGE_KEYS.DRIVERS, []);
     },
     getDriverById: function (id) {
       const drivers = this.getDrivers();
@@ -1406,7 +1406,7 @@
 
     // Trip / Dispatch Methods
     getTrips: function () {
-      return loadFromStorage(STORAGE_KEYS.TRIPS, INITIAL_TRIPS);
+      return loadFromStorage(STORAGE_KEYS.TRIPS, []);
     },
     saveTrips: function (list) {
       saveToStorage(STORAGE_KEYS.TRIPS, list);
@@ -1487,7 +1487,7 @@
 
     // Maintenance Methods
     getMaintenance: function () {
-      return loadFromStorage(STORAGE_KEYS.MAINTENANCE, INITIAL_MAINTENANCE);
+      return loadFromStorage(STORAGE_KEYS.MAINTENANCE, []);
     },
     saveMaintenance: function (list) {
       saveToStorage(STORAGE_KEYS.MAINTENANCE, list);
@@ -1556,7 +1556,7 @@
 
     // Fuel Methods
     getFuel: function () {
-      return loadFromStorage(STORAGE_KEYS.FUEL, INITIAL_FUEL);
+      return loadFromStorage(STORAGE_KEYS.FUEL, []);
     },
     saveFuel: function (list) {
       saveToStorage(STORAGE_KEYS.FUEL, list);
@@ -1596,7 +1596,7 @@
 
     // Notifications Methods
     getNotifications: function () {
-      return loadFromStorage(STORAGE_KEYS.NOTIFICATIONS, INITIAL_NOTIFICATIONS);
+      return loadFromStorage(STORAGE_KEYS.NOTIFICATIONS, []);
     },
     saveNotifications: function (list) {
       saveToStorage(STORAGE_KEYS.NOTIFICATIONS, list);
