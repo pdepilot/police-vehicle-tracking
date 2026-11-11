@@ -58,24 +58,48 @@
     if (!trackingMap || !window.FleetStorage || !window.L) return;
 
     const vehicles = window.FleetStorage.getVehicles();
+    const validMarkerIds = new Set();
 
     vehicles.forEach(veh => {
-      if (!veh.lat || !veh.lng) return;
+      const hasValidCoordinates =
+        Number.isFinite(veh.lat) &&
+        Number.isFinite(veh.lng) &&
+        veh.lat >= -90 &&
+        veh.lat <= 90 &&
+        veh.lng >= -180 &&
+        veh.lng <= 180;
+
+      if (!hasValidCoordinates) {
+        if (vehicleMarkers[veh.id]) {
+          trackingMap.removeLayer(vehicleMarkers[veh.id]);
+          delete vehicleMarkers[veh.id];
+        }
+        return;
+      }
+
+      validMarkerIds.add(String(veh.id));
 
       const isOnTrip = veh.status === 'On Trip';
       const isSiren = Boolean(veh.sirenActive);
       const isSelected = selectedVehicleId === veh.id;
 
       let iconHtml = '<i class="fa-solid fa-car-side"></i>';
-      if (veh.type === 'SUV') iconHtml = '<i class="fa-solid fa-truck-monster"></i>';
-      else if (veh.type === 'Motorcycle') iconHtml = '<i class="fa-solid fa-motorcycle"></i>';
-      else if (veh.type === 'Truck') iconHtml = '<i class="fa-solid fa-truck-pickup"></i>';
-      else if (veh.type === 'Armored Tactical') iconHtml = '<i class="fa-solid fa-shield-halved"></i>';
+
+      if (veh.type === 'SUV') {
+        iconHtml = '<i class="fa-solid fa-truck-monster"></i>';
+      } else if (veh.type === 'Motorcycle') {
+        iconHtml = '<i class="fa-solid fa-motorcycle"></i>';
+      } else if (veh.type === 'Truck') {
+        iconHtml = '<i class="fa-solid fa-truck-pickup"></i>';
+      } else if (veh.type === 'Armored Tactical') {
+        iconHtml = '<i class="fa-solid fa-shield-halved"></i>';
+      }
 
       const customIcon = window.L.divIcon({
         className: 'custom-tracking-marker',
         html: `
-          <div class="vehicle-map-marker ${isOnTrip ? 'on-trip' : ''} ${isSiren ? 'siren-on' : ''} ${isSelected ? 'selected' : ''}" style="${isSelected ? 'transform: scale(1.25); border-color: #f59e0b; box-shadow: 0 0 15px #f59e0b;' : ''}">
+          <div class="vehicle-map-marker ${isOnTrip ? 'on-trip' : ''} ${isSiren ? 'siren-on' : ''} ${isSelected ? 'selected' : ''}"
+            style="${isSelected ? 'transform: scale(1.25); border-color: #f59e0b; box-shadow: 0 0 15px #f59e0b;' : ''}">
             ${iconHtml}
           </div>
         `,
@@ -85,17 +109,26 @@
       });
 
       if (vehicleMarkers[veh.id]) {
-        // Smoothly animate marker to new coordinates
         vehicleMarkers[veh.id].setLatLng([veh.lat, veh.lng]);
         vehicleMarkers[veh.id].setIcon(customIcon);
       } else {
-        const marker = window.L.marker([veh.lat, veh.lng], { icon: customIcon })
+        const marker = window.L.marker([veh.lat, veh.lng], {
+          icon: customIcon
+        })
           .addTo(trackingMap)
           .on('click', () => {
             selectVehicle(veh.id);
           });
 
         vehicleMarkers[veh.id] = marker;
+      }
+    });
+
+    // Remove markers belonging to vehicles no longer in the fleet.
+    Object.keys(vehicleMarkers).forEach(id => {
+      if (!validMarkerIds.has(String(id))) {
+        trackingMap.removeLayer(vehicleMarkers[id]);
+        delete vehicleMarkers[id];
       }
     });
   }
