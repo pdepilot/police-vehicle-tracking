@@ -1266,7 +1266,7 @@
     },
 
     syncFromBackend: function () {
-      fetch('/api/fleet/all', {
+      return fetch('/api/fleet/all', {
         method: 'GET',
         headers: {
           'Accept': 'application/json'
@@ -1320,9 +1320,12 @@
               detail: { sync: true }
             })
           );
+
+          return true;
         })
         .catch(function (err) {
           console.warn('Backend sync deferred:', err);
+          return false;
         });
     },
 
