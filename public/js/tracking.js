@@ -243,7 +243,20 @@
     setElText('drawer-veh-driver', veh.assignedDriverName || 'Unassigned');
     setElText('drawer-veh-speed', `${veh.speed} MPH`);
     setElText('drawer-veh-heading', veh.heading || 'N');
-    setElText('drawer-veh-coords', `${veh.lat.toFixed(4)}, ${veh.lng.toFixed(4)}`);
+    const hasValidCoordinates =
+      Number.isFinite(veh.lat) &&
+      Number.isFinite(veh.lng) &&
+      veh.lat >= -90 &&
+      veh.lat <= 90 &&
+      veh.lng >= -180 &&
+      veh.lng <= 180;
+
+    setElText(
+      'drawer-veh-coords',
+      hasValidCoordinates
+        ? `${veh.lat.toFixed(4)}, ${veh.lng.toFixed(4)}`
+        : 'GPS unavailable'
+    );
     setElText('drawer-veh-location', veh.lastLocation || 'Central Sector');
     setElText('drawer-veh-fuel', `${veh.fuelLevel}%`);
     setElText('drawer-veh-battery', `${veh.batteryLevel || 98}%`);
