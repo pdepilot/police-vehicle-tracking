@@ -1291,22 +1291,8 @@
 
     // Vehicle Methods
     getVehicles: function () {
-      let vehicles = loadFromStorage(STORAGE_KEYS.VEHICLES, INITIAL_VEHICLES);
-      let needsReset = false;
-      if (Array.isArray(vehicles) && vehicles.length) {
-        // If stored vehicles are outside the SF tracking radar area, restore initial radar coordinates
-        if (vehicles.some(v => !v.lat || !v.lng || v.lat < 30 || v.lng > -100)) {
-          needsReset = true;
-        }
-      } else {
-        needsReset = true;
-      }
-
-      if (needsReset) {
-        vehicles = JSON.parse(JSON.stringify(INITIAL_VEHICLES));
-        saveToStorage(STORAGE_KEYS.VEHICLES, vehicles);
-      }
-      return vehicles;
+      const vehicles = loadFromStorage(STORAGE_KEYS.VEHICLES, []);
+      return Array.isArray(vehicles) ? vehicles : [];
     },
     getVehicleById: function (id) {
       const vehicles = this.getVehicles();
