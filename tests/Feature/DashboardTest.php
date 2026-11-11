@@ -25,7 +25,7 @@ class DashboardTest extends TestCase
 
         // Core title & live indicators
         $response->assertSee('Operations Dashboard');
-        $response->assertSee('Live Telemetry Feed');
+        $response->assertSee('GPS Not Connected');
         $response->assertSee('Fleet Management Database Connected');
 
         // TravelBooking Layout & Shell components

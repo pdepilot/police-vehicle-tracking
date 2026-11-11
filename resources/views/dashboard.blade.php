@@ -11,8 +11,8 @@
   <!-- PAGE HEAD (TravelBooking Layout & Typography) -->
   <div class="page-head">
     <div>
-      <h1>Operations Dashboard <span class="live-pill" id="liveFeedPill"><span class="live-dot"></span> Live Telemetry Feed</span></h1>
-      <p>Real-time overview of Imo State Command patrol units, emergency dispatches & fleet readiness &bull; Last synchronized: <span id="liveTimestamp" style="font-weight:600;color:var(--navy);">{{ date('g:i:s A') }}</span></p>
+      <h1>Operations Dashboard <span class="live-pill" id="liveFeedPill"><span class="live-dot"></span> GPS Not Connected</span></h1>
+      <p>Overview of Imo State Command fleet records, dispatches and operational readiness &bull; Last successful synchronization: <span id="liveTimestamp" style="font-weight:600;color:var(--navy);">Awaiting synchronization</span></p>
     </div>
     <div class="page-head-actions">
       <button type="button" class="btn btn-ghost" id="btnRefreshLive" title="Poll MySQL database now">
