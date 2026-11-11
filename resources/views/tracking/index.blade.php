@@ -30,9 +30,9 @@
           <option value="SIREN">Emergency Siren Active</option>
         </select>
 
-        <button class="btn btn-secondary btn-sm" id="btn-toggle-simulation" title="Pause/Resume live simulated movement">
-          <i class="fa-solid fa-pause"></i> Pause
-        </button>
+        <span class="text-muted small" id="telemetry-feed-status">
+          GPS feed not connected
+        </span>
       </div>
     </div>
 

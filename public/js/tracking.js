@@ -11,17 +11,12 @@
   let trackingMap = null;
   let vehicleMarkers = {};
   let selectedVehicleId = null;
-  let simulationInterval = null;
-  let isSimulating = true;
 
   function initTracking() {
     initLeafletMap();
     renderVehicleList();
     setupEventListeners();
     checkUrlFocus();
-
-    // Start subtle realistic demo telematics simulation
-    startTelemetrySimulation();
 
     window.addEventListener('fleet_data_updated', () => {
       renderVehicleList();
@@ -264,55 +259,6 @@
     }
   }
 
-  // 6. Real-time Telemetry Movement Simulation (DEMO DATA)
-  function startTelemetrySimulation() {
-    if (simulationInterval) clearInterval(simulationInterval);
-
-    simulationInterval = setInterval(() => {
-      if (!isSimulating || !window.FleetStorage) return;
-
-      const vehicles = window.FleetStorage.getVehicles();
-      let updatedAny = false;
-
-      vehicles.forEach(veh => {
-        // Only move vehicles currently marked 'On Trip' or with active speed
-        if (veh.status === 'On Trip' || veh.speed > 0) {
-          // Slight realistic drift along streets (0.0003 deg ~ 30 meters)
-          const angle = Math.random() * Math.PI * 2;
-          const deltaLat = Math.sin(angle) * 0.00035;
-          const deltaLng = Math.cos(angle) * 0.00035;
-
-          veh.lat = Number((veh.lat + deltaLat).toFixed(5));
-          veh.lng = Number((veh.lng + deltaLng).toFixed(5));
-
-          // Calculate dynamic 3D heading based on motion vector
-          const headingDegrees = Math.round(((Math.atan2(deltaLng, deltaLat) * 180 / Math.PI) + 360) % 360);
-          veh.heading = headingDegrees;
-
-          // Fluctuate speed slightly
-          const speedVariance = (Math.random() - 0.5) * 6;
-          veh.speed = Math.max(15, Math.min(85, Math.round((veh.speed || 40) + speedVariance)));
-
-          updatedAny = true;
-        }
-      });
-
-      if (updatedAny) {
-        window.FleetStorage.saveVehicles(vehicles);
-        updateMapMarkers();
-
-        // If currently viewing a vehicle in drawer, update speed and coords
-        if (selectedVehicleId) {
-          const cur = vehicles.find(v => v.id === selectedVehicleId);
-          if (cur) {
-            setElText('drawer-veh-speed', `${cur.speed} KM/H`);
-            setElText('drawer-veh-coords', `${cur.lat.toFixed(4)}, ${cur.lng.toFixed(4)}`);
-          }
-        }
-      }
-    }, 4000);
-  }
-
   // 7. Setup Event Listeners
   function setupEventListeners() {
     const searchInput = document.getElementById('track-search-input');
@@ -320,22 +266,6 @@
 
     if (searchInput) searchInput.addEventListener('input', renderVehicleList);
     if (statusSelect) statusSelect.addEventListener('change', renderVehicleList);
-
-    // Toggle simulation button
-    const btnSim = document.getElementById('btn-toggle-simulation');
-    if (btnSim) {
-      btnSim.addEventListener('click', () => {
-        isSimulating = !isSimulating;
-        btnSim.innerHTML = isSimulating
-          ? `<i class="fa-solid fa-pause"></i> Pause Telemetry`
-          : `<i class="fa-solid fa-play"></i> Resume Telemetry`;
-        window.FleetApp.showToast(
-          'Telemetry Simulation',
-          isSimulating ? 'Simulated GPS feed resumed.' : 'Simulated GPS feed paused.',
-          'info'
-        );
-      });
-    }
 
     // Toggle Siren
     const sirenBtn = document.getElementById('btn-toggle-siren');
