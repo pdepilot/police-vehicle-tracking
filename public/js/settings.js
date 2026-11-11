@@ -85,50 +85,6 @@
         document.documentElement.setAttribute('data-theme', this.value);
       });
     }
-
-    // Reset Demo Data
-    const resetBtn = document.getElementById('btn-reset-demo-data');
-    if (resetBtn) {
-      resetBtn.addEventListener('click', () => {
-        window.FleetApp.confirmModal(
-          'Reset Demonstration Data',
-          'This will purge all custom changes and restore all vehicles, officers, trips, and maintenance logs back to factory demonstration seeds. Continue?',
-          () => {
-            window.FleetStorage.resetAllToDefault();
-            loadSettingsIntoForm();
-            calculateStorageUsage();
-            window.FleetApp.showToast('Factory Reset', 'Demonstration dataset restored to factory defaults.', 'success');
-          }
-        );
-      });
-    }
-
-    // Export Entire Database as JSON
-    const exportJsonBtn = document.getElementById('btn-export-db-json');
-    if (exportJsonBtn) {
-      exportJsonBtn.addEventListener('click', () => {
-        const fullBackup = {
-          system: 'Sentinel Police Fleet Management System',
-          exportTimestamp: new Date().toISOString(),
-          vehicles: window.FleetStorage.getVehicles(),
-          drivers: window.FleetStorage.getDrivers(),
-          trips: window.FleetStorage.getTrips(),
-          maintenance: window.FleetStorage.getMaintenance(),
-          fuel: window.FleetStorage.getFuel(),
-          notifications: window.FleetStorage.getNotifications(),
-          settings: window.FleetStorage.getSettings()
-        };
-
-        const blob = new Blob([JSON.stringify(fullBackup, null, 2)], { type: 'application/json' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `police_fleet_backup_${new Date().toISOString().substring(0, 10)}.json`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.FleetApp.showToast('Backup Exported', 'Full JSON database export downloaded.', 'success');
-      });
-    }
   }
 
   function calculateStorageUsage() {

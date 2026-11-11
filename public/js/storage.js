@@ -1289,22 +1289,6 @@
         });
     },
 
-    // Reset back to initial demo dataset in MySQL & LocalStorage
-    resetAllToDefault: function () {
-      var self = this;
-      apiFetch('/api/fleet/reset', { method: 'POST' }).then(function() {
-        self.syncFromBackend();
-      });
-      localStorage.setItem(STORAGE_KEYS.VEHICLES, JSON.stringify(INITIAL_VEHICLES));
-      localStorage.setItem(STORAGE_KEYS.DRIVERS, JSON.stringify(INITIAL_DRIVERS));
-      localStorage.setItem(STORAGE_KEYS.TRIPS, JSON.stringify(INITIAL_TRIPS));
-      localStorage.setItem(STORAGE_KEYS.MAINTENANCE, JSON.stringify(INITIAL_MAINTENANCE));
-      localStorage.setItem(STORAGE_KEYS.FUEL, JSON.stringify(INITIAL_FUEL));
-      localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(INITIAL_NOTIFICATIONS));
-      localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(INITIAL_SETTINGS));
-      window.dispatchEvent(new CustomEvent('fleet_data_updated', { detail: { reset: true } }));
-    },
-
     // Vehicle Methods
     getVehicles: function () {
       let vehicles = loadFromStorage(STORAGE_KEYS.VEHICLES, INITIAL_VEHICLES);
