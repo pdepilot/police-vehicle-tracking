@@ -9,7 +9,6 @@ use App\Models\Maintenance;
 use App\Models\Setting;
 use App\Models\Trip;
 use App\Models\Vehicle;
-use Database\Seeders\PoliceFleetSeeder;
 use Illuminate\Http\Request;
 
 class FleetApiController extends Controller
@@ -364,43 +363,5 @@ class FleetApiController extends Controller
             $setting->update($request->all());
         }
         return response()->json(['success' => true, 'settings' => $setting]);
-    }
-
-    public function resetDatabase()
-    {
-        Vehicle::truncate();
-        Driver::truncate();
-        Trip::truncate();
-        Maintenance::truncate();
-        FuelLog::truncate();
-        FleetNotification::truncate();
-        Setting::truncate();
-
-        $seeder = new PoliceFleetSeeder();
-        $seeder->run();
-
-        return response()->json(['success' => true, 'message' => 'Database reset to default seeds.']);
-    }
-
-    public function backupDatabase()
-    {
-        $data = [
-            'backup_timestamp' => now()->toIso8601String(),
-            'vehicles' => Vehicle::all(),
-            'drivers' => Driver::all(),
-            'trips' => Trip::all(),
-            'maintenance' => Maintenance::all(),
-            'fuel' => FuelLog::all(),
-            'notifications' => FleetNotification::all(),
-            'settings' => Setting::first(),
-        ];
-
-        $json = json_encode($data, JSON_PRETTY_PRINT);
-        $fileName = 'police-car-tracker-backup-' . date('Y-m-d-His') . '.json';
-
-        return response($json, 200, [
-            'Content-Type' => 'application/json',
-            'Content-Disposition' => "attachment; filename=\"$fileName\"",
-        ]);
     }
 }
