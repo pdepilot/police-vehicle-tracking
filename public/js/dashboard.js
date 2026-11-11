@@ -332,30 +332,30 @@
 
       return `
         <tr>
-          <td>
+          <td data-label="Trip ID">
             <strong class="cell-strong">${t.id}</strong>
           </td>
-          <td>
+          <td data-label="Vehicle">
             <span class="plate-badge"><i class="bi bi-shield-shaded"></i> ${t.vehicleReg}</span>
           </td>
-          <td>
+          <td data-label="Driver">
             <span class="cell-strong">${t.driverName}</span>
           </td>
-          <td>
+          <td data-label="Destination">
             <div>
               <span class="cell-strong">${t.destination}</span>
               <span class="cell-sub"><i class="bi bi-geo-alt"></i> Origin: ${t.origin}</span>
             </div>
           </td>
-          <td>
+          <td data-label="Departure">
             <span class="cell-mono">${t.departureDate} ${t.departureTime}</span>
           </td>
-          <td>
+          <td data-label="Status">
             <span class="status-pill ${statusClass}">
               <span class="dot"></span> ${t.status}
             </span>
           </td>
-          <td class="text-end">
+          <td class="text-end" data-label="Action">
             <a href="/trips" class="btn btn-ghost btn-xs" title="View details">
               <i class="bi bi-eye"></i> View
             </a>

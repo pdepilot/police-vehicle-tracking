@@ -206,7 +206,7 @@
   // Mobile Sidebar Toggle
   function setupMobileSidebar() {
     const toggleBtn = document.getElementById('mobile-menu-toggle');
-    const sidebar = document.querySelector('.sidebar');
+    const sidebar = document.querySelector('.sidebar, .float-nav');
     const backdrop = document.getElementById('sidebar-backdrop');
 
     if (!toggleBtn || !sidebar) return;
@@ -214,11 +214,13 @@
     function openSidebar() {
       sidebar.classList.add('mobile-open');
       if (backdrop) backdrop.classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
 
     function closeSidebar() {
       sidebar.classList.remove('mobile-open');
       if (backdrop) backdrop.classList.remove('active');
+      document.body.style.overflow = '';
     }
 
     toggleBtn.addEventListener('click', function (e) {
@@ -233,6 +235,15 @@
     if (backdrop) {
       backdrop.addEventListener('click', closeSidebar);
     }
+
+    // Auto-close sidebar on link/button click on mobile
+    sidebar.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          closeSidebar();
+        }
+      });
+    });
   }
 
   // Toast System

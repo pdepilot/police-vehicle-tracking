@@ -36,6 +36,8 @@
   <a href="#adminMain" class="skip-link">Skip to dashboard content</a>
 
   <div class="dash-shell">
+    <!-- Backdrop for mobile drawer navigation -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 
     <!-- FLOATING SIDE NAVIGATION (TravelBooking Signature Rail with Hover Expansion) -->
     <nav class="float-nav sidebar-nav" id="floatNav" aria-label="Police Fleet navigation">
@@ -129,6 +131,9 @@
       <!-- TOPBAR (TravelBooking Header Styling) -->
       <header class="dash-topbar">
         <div class="topbar-left">
+          <button type="button" class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+          </button>
           <a href="{{ route('dashboard') }}" class="topbar-brand-link" title="Nigeria Police Force Imo State Command" style="display:inline-flex;align-items:center;text-decoration:none;margin-right:8px;">
             <img src="{{ asset('images/nigeria-police-logo.png') }}" alt="Nigeria Police Force" style="height:32px;width:auto;object-fit:contain;" />
           </a>
@@ -150,12 +155,6 @@
           <span class="demo-pill">
             <i class="bi bi-shield-check"></i> IMO POLICE HQ
           </span>
-
-          <!-- Download ZIP Button -->
-          <a href="{{ asset('police-fleet-system.zip') }}" download="police-fleet-system.zip" class="btn btn-ghost btn-xs" title="Download Complete Project ZIP Archive" style="text-decoration:none;">
-            <i class="bi bi-download"></i>
-            <span>ZIP ARCHIVE</span>
-          </a>
 
           <!-- Notifications Dropdown Button -->
           <div style="position: relative;">
