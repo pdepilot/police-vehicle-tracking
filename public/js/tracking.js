@@ -209,7 +209,15 @@
     if (!veh) return;
 
     // Pan map to vehicle
-    if (trackingMap && veh.lat && veh.lng) {
+    if (
+      trackingMap &&
+      Number.isFinite(veh.lat) &&
+      Number.isFinite(veh.lng) &&
+      veh.lat >= -90 &&
+      veh.lat <= 90 &&
+      veh.lng >= -180 &&
+      veh.lng <= 180
+    ) {
       trackingMap.flyTo([veh.lat, veh.lng], 15, {
         animate: true,
         duration: 1.2
