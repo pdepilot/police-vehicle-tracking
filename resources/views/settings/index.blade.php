@@ -100,41 +100,6 @@
     </div>
   </div>
 </div>
-
-<!-- DEMO DATA MANAGEMENT & SOURCE CODE ARCHIVE -->
-<div class="content-card">
-  <div class="card-header">
-    <div class="card-title-group">
-      <h2 class="card-title"><i class="fa-solid fa-database text-blue-600"></i> Database Management & Backup</h2>
-      <span class="card-subtitle">MySQL database management, phpMyAdmin compatibility, and backup package</span>
-    </div>
-  </div>
-  <div class="card-body">
-    <div style="display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem;">
-      <!-- Download Source Code ZIP -->
-      <div style="border: 1px solid #bfdbfe; background: rgba(59, 130, 246, 0.08); border-radius: var(--radius-md); padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;">
-        <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--primary);">
-          <i class="fa-solid fa-file-zipper"></i> Complete Source ZIP
-        </div>
-        <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.45;">
-          Download <strong>police-fleet-system.zip</strong> containing all 12 frontend pages, master CSS, Vanilla JS modules, and documentation.
-        </p>
-        <a href="{{ asset('police-fleet-system.zip') }}" download="police-fleet-system.zip" class="btn btn-primary btn-sm btn-download-zip" style="margin-top: auto; text-align:center; text-decoration:none;">
-          <i class="fa-solid fa-download"></i> Download police-fleet-system.zip
-        </a>
-      </div>
-    </div>
-
-    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: var(--text-muted);">
-      <div>
-        <i class="fa-solid fa-database"></i> Database: <strong>police-car-tracker</strong> &bull; Engine: MySQL (phpMyAdmin)
-      </div>
-      <div>
-        Nigeria Police Force &bull; Imo State Command &bull; Laravel Framework & MySQL
-      </div>
-    </div>
-  </div>
-</div>
 @endsection
 
 @section('scripts')
