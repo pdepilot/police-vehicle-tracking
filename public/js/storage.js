@@ -949,17 +949,17 @@
 
   // Seed Data: Settings
   const INITIAL_SETTINGS = {
-    commanderName: 'CP Imo State Command',
-    commanderBadge: 'NPF-IMO-001',
-    commanderEmail: 'imo.commander@police.gov.ng',
-    department: 'Nigeria Police Force — Imo State Command',
-    terminalId: 'NPF-IMO-HQ-TERM-01',
+    commanderName: '',
+    commanderBadge: '',
+    commanderEmail: '',
+    department: 'Not configured',
+    terminalId: '',
     theme: 'light',
     speedUnit: 'KMH',
-    telemetryRefreshRate: 5, // seconds
+    telemetryRefreshRate: 5,
     audioAlerts: true,
-    autoAssignTracking: true,
-    lastBackup: '2026-11-05 09:00'
+    autoAssignTracking: false,
+    lastBackup: ''
   };
 
   // Helper to load or initialize
@@ -1227,13 +1227,14 @@
   }
 
   function normalizeSettings(s) {
-    if (!s) return INITIAL_SETTINGS;
+    if (!s) return { ...INITIAL_SETTINGS };
+
     return {
-      commanderName: s.commander_name || s.commanderName || 'CP Imo State Command',
-      commanderBadge: s.commander_badge || s.commanderBadge || 'NPF-IMO-001',
-      commanderEmail: s.commander_email || s.commanderEmail || 'imo.commander@police.gov.ng',
-      department: s.department || 'Nigeria Police Force — Imo State Command',
-      terminalId: s.terminal_id || s.terminalId || 'NPF-IMO-HQ-TERM-01',
+      commanderName: s.commander_name || s.commanderName || '',
+      commanderBadge: s.commander_badge || s.commanderBadge || '',
+      commanderEmail: s.commander_email || s.commanderEmail || '',
+      department: s.department || 'Not configured',
+      terminalId: s.terminal_id || s.terminalId || '',
       theme: s.theme || 'light',
       speedUnit: s.speed_unit || s.speedUnit || 'KMH',
       telemetryRefreshRate: Number(s.telemetry_refresh_rate || s.telemetryRefreshRate || 5),
