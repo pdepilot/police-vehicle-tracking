@@ -110,33 +110,7 @@
     </div>
   </div>
   <div class="card-body">
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;">
-      <!-- Factory Reset -->
-      <div style="border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;">
-        <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--danger);">
-          <i class="fa-solid fa-rotate-left"></i> Restore MySQL Seeds
-        </div>
-        <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.45;">
-          Resets vehicles, officers, dispatches, maintenance, and fuel slips in MySQL (police-car-tracker) back to default Imo Command seeds.
-        </p>
-        <button type="button" class="btn btn-danger btn-sm" id="btn-reset-demo-data" style="margin-top: auto;">
-          <i class="fa-solid fa-arrow-rotate-left"></i> Reset to Factory Data
-        </button>
-      </div>
-
-      <!-- Export Full DB JSON -->
-      <div style="border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;">
-        <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--primary);">
-          <i class="fa-solid fa-download"></i> Backup Fleet JSON
-        </div>
-        <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.45;">
-          Export the entire database including all vehicle telemetry, driver dossiers, and logs into a formatted JSON backup file.
-        </p>
-        <button type="button" class="btn btn-secondary btn-sm" id="btn-export-db-json" style="margin-top: auto;">
-          <i class="fa-solid fa-file-code"></i> Export JSON Backup
-        </button>
-      </div>
-
+    <div style="display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem;">
       <!-- Download Source Code ZIP -->
       <div style="border: 1px solid #bfdbfe; background: rgba(59, 130, 246, 0.08); border-radius: var(--radius-md); padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;">
         <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--primary);">
