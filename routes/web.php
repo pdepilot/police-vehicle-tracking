@@ -76,8 +76,6 @@ Route::middleware('auth')->group(function () {
     // Settings
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
-    Route::post('/settings/reset', [SettingController::class, 'reset'])->name('settings.reset');
-    Route::get('/settings/backup', [SettingController::class, 'backup'])->name('settings.backup');
 
 // Legacy HTML Route Aliases & Redirects
     Route::get('/dashboard.html', fn() => redirect()->route('dashboard'));
