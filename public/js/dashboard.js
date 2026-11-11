@@ -426,30 +426,61 @@
 
   // 6. Quick Action Buttons Handlers & Live Poll
   function setupDashboardEventListeners() {
-    // Live Refresh Button (TravelBooking interaction)
+    // Refresh dashboard from the authenticated MySQL backend
     const btnRefresh = document.getElementById('btnRefreshLive');
+
     if (btnRefresh) {
       btnRefresh.addEventListener('click', () => {
-        const refreshIcon = document.getElementById('refreshIcon');
-        if (refreshIcon) refreshIcon.classList.add('spin-icon');
-
-        // Re-calculate and render UI
-        renderKPIStats();
-        initCharts();
-        renderRecentTrips();
-        renderRecentAlerts();
-        renderDashboardMapMarkers();
-
-        // Update timestamp
-        const timestampEl = document.getElementById('liveTimestamp');
-        if (timestampEl) {
-          const now = new Date();
-          timestampEl.textContent = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+        if (!window.FleetStorage || typeof window.FleetStorage.syncFromBackend !== 'function') {
+          console.error('FleetStorage synchronization is unavailable.');
+          return;
         }
 
-        setTimeout(() => {
-          if (refreshIcon) refreshIcon.classList.remove('spin-icon');
-        }, 500);
+        const refreshIcon = document.getElementById('refreshIcon');
+        const timestampEl = document.getElementById('liveTimestamp');
+        const originalLabel = btnRefresh.innerHTML;
+
+        btnRefresh.disabled = true;
+        btnRefresh.innerHTML = '<i class="bi bi-arrow-clockwise spin-icon"></i> Syncing...';
+
+        if (refreshIcon) {
+          refreshIcon.classList.add('spin-icon');
+        }
+
+        if (timestampEl) {
+          timestampEl.textContent = 'Synchronizing...';
+        }
+
+        window.FleetStorage.syncFromBackend()
+          .then((synced) => {
+            if (synced) {
+              if (timestampEl) {
+                timestampEl.textContent = new Date().toLocaleTimeString('en-US', {
+                  hour: 'numeric',
+                  minute: '2-digit',
+                  second: '2-digit',
+                  hour12: true
+                });
+              }
+            } else if (timestampEl) {
+              timestampEl.textContent = 'Synchronization failed';
+            }
+          })
+          .catch((error) => {
+            console.error('Dashboard synchronization error:', error);
+
+            if (timestampEl) {
+              timestampEl.textContent = 'Synchronization failed';
+            }
+          })
+          .finally(() => {
+            btnRefresh.disabled = false;
+            btnRefresh.innerHTML = originalLabel;
+
+            if (refreshIcon) {
+              refreshIcon.classList.remove('spin-icon');
+            }
+          });
       });
     }
 
