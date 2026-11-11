@@ -33,7 +33,7 @@
       zoomControl: true,
       minZoom: 10,
       maxZoom: 18
-    }).setView([37.778, -122.418], 13);
+    }).setView([5.4836, 7.0333], 13);
 
     // OpenStreetMap Layer
     window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
